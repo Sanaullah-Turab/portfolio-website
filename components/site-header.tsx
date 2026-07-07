@@ -1,61 +1,57 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import { motion, useScroll, useSpring } from 'framer-motion'
+import { useEffect, useState } from "react";
+import { motion, useScroll, useSpring } from "framer-motion";
+import { MobileMenu } from "@/components/mobile-menu";
+import { navLinks } from "@/lib/nav-links";
 
-const links = [
-  { href: '#work', label: 'Work' },
-  { href: '#about', label: 'About' },
-  { href: '#experience', label: 'Experience' },
-  { href: '#certifications', label: 'Credentials' },
-  { href: '#contact', label: 'Contact' },
-]
+export const links = navLinks;
 
 export function SiteHeader() {
-  const [time, setTime] = useState('')
-  const [activeSection, setActiveSection] = useState('')
-  const { scrollYProgress } = useScroll()
+  const [time, setTime] = useState("");
+  const [activeSection, setActiveSection] = useState("");
+  const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, {
     stiffness: 120,
     damping: 30,
     restDelta: 0.001,
-  })
+  });
 
   useEffect(() => {
     const tick = () => {
       setTime(
-        new Date().toLocaleTimeString('en-US', {
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
+        new Date().toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
           hour12: false,
-        })
-      )
-    }
-    tick()
-    const id = setInterval(tick, 1000)
-    return () => clearInterval(id)
-  }, [])
+        }),
+      );
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
 
   useEffect(() => {
-    const ids = links.map((l) => l.href.slice(1))
+    const ids = links.map((l) => l.href.slice(1));
     const sections = ids
       .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => el !== null)
+      .filter((el): el is HTMLElement => el !== null);
 
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            setActiveSection(entry.target.id)
+            setActiveSection(entry.target.id);
           }
         }
       },
-      { rootMargin: '-40% 0px -55% 0px' }
-    )
-    sections.forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
-  }, [])
+      { rootMargin: "-40% 0px -55% 0px" },
+    );
+    sections.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <motion.header
@@ -71,20 +67,20 @@ export function SiteHeader() {
         <nav aria-label="Main navigation" className="hidden md:block">
           <ul className="flex items-center gap-8">
             {links.map((link) => {
-              const isActive = activeSection === link.href.slice(1)
+              const isActive = activeSection === link.href.slice(1);
               return (
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    aria-current={isActive ? 'true' : undefined}
+                    aria-current={isActive ? "true" : undefined}
                     className={`link-underline font-mono text-xs uppercase tracking-[0.2em] transition-colors hover:text-primary ${
-                      isActive ? 'text-primary' : 'text-muted-foreground'
+                      isActive ? "text-primary" : "text-muted-foreground"
                     }`}
                   >
                     {link.label}
                   </a>
                 </li>
-              )
+              );
             })}
           </ul>
         </nav>
@@ -95,15 +91,10 @@ export function SiteHeader() {
           </span>
           <span>SF, CA</span>
           <span className="tabular-nums" suppressHydrationWarning>
-            {time || '00:00:00'}
+            {time || "00:00:00"}
           </span>
         </div>
-        <a
-          href="#contact"
-          className="font-mono text-xs uppercase tracking-[0.2em] text-foreground transition-colors hover:text-primary md:hidden"
-        >
-          Contact
-        </a>
+        <MobileMenu links={links} />
       </div>
       {/* Scroll progress line */}
       <motion.div
@@ -112,5 +103,5 @@ export function SiteHeader() {
         className="absolute inset-x-0 bottom-[-1px] h-px origin-left bg-primary"
       />
     </motion.header>
-  )
+  );
 }

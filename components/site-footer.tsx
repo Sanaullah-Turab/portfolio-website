@@ -1,17 +1,20 @@
-'use client'
+"use client";
 
-import { Reveal, RevealText } from '@/components/reveal'
+import { Reveal, RevealText } from "@/components/reveal";
 
 const socials = [
-  { label: 'GitHub', href: '#' },
-  { label: 'LinkedIn', href: '#' },
-  { label: 'X / Twitter', href: '#' },
-  { label: 'Hugging Face', href: '#' },
-]
+  { label: "GitHub", href: "#" },
+  { label: "LinkedIn", href: "#" },
+  { label: "X / Twitter", href: "#" },
+  { label: "Hugging Face", href: "#" },
+];
 
 export function SiteFooter() {
   return (
-    <footer id="contact" className="border-t border-border px-5 pb-10 pt-24 md:px-10 md:pt-36">
+    <footer
+      id="contact"
+      className="border-t border-border px-6 pb-10 pt-24 md:px-14 md:pt-36 lg:px-20"
+    >
       <div className="mx-auto max-w-7xl">
         <div className="mb-6 font-mono text-xs uppercase tracking-[0.25em] text-primary">
           <Reveal y={12}>
@@ -101,5 +104,5 @@ export function SiteFooter() {
         </div>
       </div>
     </footer>
-  )
+  );
 }

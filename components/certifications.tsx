@@ -1,67 +1,70 @@
-'use client'
+"use client";
 
-import { Reveal, SectionHeading } from '@/components/reveal'
+import { Reveal, SectionHeading } from "@/components/reveal";
 
 const certifications = [
   {
-    name: 'Machine Learning Specialization',
-    issuer: 'Stanford / DeepLearning.AI',
-    year: '2024',
-    id: 'ML-2024-8842',
+    name: "Machine Learning Specialization",
+    issuer: "Stanford / DeepLearning.AI",
+    year: "2024",
+    id: "ML-2024-8842",
   },
   {
-    name: 'Deep Learning Specialization',
-    issuer: 'DeepLearning.AI',
-    year: '2024',
-    id: 'DL-2024-3391',
+    name: "Deep Learning Specialization",
+    issuer: "DeepLearning.AI",
+    year: "2024",
+    id: "DL-2024-3391",
   },
   {
-    name: 'AWS Certified Machine Learning — Specialty',
-    issuer: 'Amazon Web Services',
-    year: '2025',
-    id: 'AWS-MLS-7205',
+    name: "AWS Certified Machine Learning — Specialty",
+    issuer: "Amazon Web Services",
+    year: "2025",
+    id: "AWS-MLS-7205",
   },
   {
-    name: 'TensorFlow Developer Certificate',
-    issuer: 'Google',
-    year: '2024',
-    id: 'TF-2024-1187',
+    name: "TensorFlow Developer Certificate",
+    issuer: "Google",
+    year: "2024",
+    id: "TF-2024-1187",
   },
   {
-    name: 'Professional ML Engineer',
-    issuer: 'Google Cloud',
-    year: '2025',
-    id: 'GCP-PMLE-4410',
+    name: "Professional ML Engineer",
+    issuer: "Google Cloud",
+    year: "2025",
+    id: "GCP-PMLE-4410",
   },
   {
-    name: 'NLP Specialization',
-    issuer: 'DeepLearning.AI',
-    year: '2025',
-    id: 'NLP-2025-0923',
+    name: "NLP Specialization",
+    issuer: "DeepLearning.AI",
+    year: "2025",
+    id: "NLP-2025-0923",
   },
   {
-    name: 'AWS Certified Solutions Architect',
-    issuer: 'Amazon Web Services',
-    year: '2022',
-    id: 'AWS-SAA-5561',
+    name: "AWS Certified Solutions Architect",
+    issuer: "Amazon Web Services",
+    year: "2022",
+    id: "AWS-SAA-5561",
   },
   {
-    name: 'MLOps Specialization',
-    issuer: 'Duke University',
-    year: '2025',
-    id: 'MLO-2025-2748',
+    name: "MLOps Specialization",
+    issuer: "Duke University",
+    year: "2025",
+    id: "MLO-2025-2748",
   },
   {
-    name: 'Kubernetes Application Developer',
-    issuer: 'CNCF',
-    year: '2023',
-    id: 'CKAD-2023-6634',
+    name: "Kubernetes Application Developer",
+    issuer: "CNCF",
+    year: "2023",
+    id: "CKAD-2023-6634",
   },
-]
+];
 
 export function Certifications() {
   return (
-    <section id="certifications" className="px-5 py-24 md:px-10 md:py-36">
+    <section
+      id="certifications"
+      className="px-6 py-24 md:px-14 md:py-36 lg:px-20"
+    >
       <div className="mx-auto max-w-7xl">
         <SectionHeading number="04" title="Certifications" />
 
@@ -109,5 +112,5 @@ export function Certifications() {
         </ul>
       </div>
     </section>
-  )
+  );
 }

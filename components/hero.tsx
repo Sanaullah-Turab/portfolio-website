@@ -1,24 +1,29 @@
-'use client'
+"use client";
 
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
-import { useRef } from 'react'
-import { RevealText, Reveal } from '@/components/reveal'
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+} from "framer-motion";
+import { useRef } from "react";
+import { RevealText, Reveal } from "@/components/reveal";
 
 export function Hero() {
-  const ref = useRef<HTMLElement>(null)
-  const reduced = useReducedMotion()
+  const ref = useRef<HTMLElement>(null);
+  const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ['start start', 'end start'],
-  })
-  const y = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 120])
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+    offset: ["start start", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 120]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
     <section
       ref={ref}
       id="top"
-      className="relative flex min-h-svh flex-col justify-end overflow-hidden px-5 pb-14 pt-32 md:px-10"
+      className="relative flex min-h-svh flex-col justify-center overflow-hidden px-6 pb-14 pt-20 md:px-14 lg:px-20"
     >
       <motion.div style={{ y, opacity }} className="mx-auto w-full max-w-7xl">
         <div className="mb-10 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
@@ -48,9 +53,9 @@ export function Hero() {
           <Reveal delay={0.6} className="md:col-span-5">
             <p className="max-w-md text-pretty leading-relaxed text-muted-foreground">
               Six years building fullstack systems end to end — now designing,
-              training, and deploying machine learning that runs in
-              production. From REST APIs to RAG pipelines, the craft is the
-              same: things that work.
+              training, and deploying machine learning that runs in production.
+              From REST APIs to RAG pipelines, the craft is the same: things
+              that work.
             </p>
           </Reveal>
           <Reveal delay={0.7} className="md:col-span-4">
@@ -81,7 +86,10 @@ export function Hero() {
               </div>
             </dl>
           </Reveal>
-          <Reveal delay={0.8} className="flex items-end md:col-span-3 md:justify-end">
+          <Reveal
+            delay={0.8}
+            className="flex items-end md:col-span-3 md:justify-end"
+          >
             <a
               href="#work"
               className="group inline-flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-foreground transition-colors hover:text-primary"
@@ -98,5 +106,5 @@ export function Hero() {
         </div>
       </motion.div>
     </section>
-  )
+  );
 }
