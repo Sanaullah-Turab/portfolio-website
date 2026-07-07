@@ -1,7 +1,8 @@
 'use client'
 
-import { motion, useReducedMotion, useInView } from 'framer-motion'
-import { useRef, type ReactNode } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
+import { type ReactNode } from 'react'
+import { SectionLine } from '@/components/section-line'
 
 export function Reveal({
   children,
@@ -85,9 +86,6 @@ export function SectionHeading({
   number: string
   title: string
 }) {
-  const lineRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(lineRef, { once: true, margin: '-60px' })
-
   return (
     <div className="mb-2">
       <Reveal>
@@ -115,22 +113,7 @@ export function SectionHeading({
         </div>
       </Reveal>
 
-      {/* Glowing line — CSS transition driven by useInView */}
-      <div
-        ref={lineRef}
-        style={{
-          height: '1px',
-          width: '100%',
-          background: 'oklch(0.78 0.155 70)',
-          transformOrigin: 'left',
-          transform: isInView ? 'scaleX(1)' : 'scaleX(0)',
-          transition: 'transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s',
-          boxShadow:
-            '0 0 4px 1px oklch(0.78 0.155 70 / 0.7), 0 0 10px 2px oklch(0.78 0.155 70 / 0.35)',
-        }}
-      />
+      <SectionLine />
     </div>
   )
 }
-
-
