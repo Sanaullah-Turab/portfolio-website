@@ -60,8 +60,11 @@ export function SiteHeader() {
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="fixed inset-x-0 top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md"
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:py-5 md:px-10 lg:px-16">
-        <a href="#top" className="font-mono text-sm md:text-base tracking-tight">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:py-5 md:px-10 lg:px-8">
+        <a
+          href="#top"
+          className="font-mono text-sm md:text-base tracking-tight"
+        >
           AV<span className="text-primary">.</span>
         </a>
         <nav aria-label="Main navigation" className="hidden md:block">

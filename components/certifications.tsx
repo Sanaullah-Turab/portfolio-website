@@ -63,7 +63,7 @@ export function Certifications() {
   return (
     <section
       id="certifications"
-      className="px-5 py-24 md:px-10 md:py-36 lg:px-16"
+      className="px-5 py-24 md:px-10 md:py-36 lg:px-8"
     >
       <div className="mx-auto max-w-7xl">
         <SectionHeading number="04" title="Certifications" />

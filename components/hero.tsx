@@ -23,7 +23,7 @@ export function Hero() {
     <section
       ref={ref}
       id="top"
-      className="relative flex min-h-svh flex-col justify-center overflow-hidden px-5 pb-14 pt-20 md:px-10 lg:px-16"
+      className="relative flex min-h-svh flex-col justify-center overflow-hidden px-5 pb-14 pt-20 md:px-10 lg:px-8"
     >
       <motion.div style={{ y, opacity }} className="mx-auto w-full max-w-7xl">
         <div className="mb-10 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">

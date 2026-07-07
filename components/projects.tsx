@@ -142,7 +142,7 @@ export function Projects() {
   return (
     <section
       id="work"
-      className="relative px-5 py-24 md:px-10 md:py-36 lg:px-16"
+      className="relative px-5 py-24 md:px-10 md:py-36 lg:px-8"
     >
       <div className="mx-auto max-w-7xl">
         <SectionHeading number="01" title="Selected Work" />

@@ -97,7 +97,7 @@ export function MobileMenu({ links }: { links: NavLink[] }) {
                       ease: [0.22, 1, 0.36, 1],
                     }}
                     style={{ originX: 0 }} // Ensures the animation starts from the left side
-                    className="absolute bottom-0 left-0 h-[1px] w-full bg-primary"
+                    className="absolute bottom-0 left-0 h-px w-full bg-primary"
                     aria-hidden="true"
                   />
                 </div>

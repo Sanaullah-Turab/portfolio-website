@@ -55,7 +55,7 @@ export function Experience() {
   });
 
   return (
-    <section id="experience" className="px-5 py-24 md:px-10 md:py-36 lg:px-16">
+    <section id="experience" className="px-5 py-24 md:px-10 md:py-36 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <SectionHeading number="03" title="Experience" />
 

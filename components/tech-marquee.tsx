@@ -20,7 +20,7 @@ export function TechMarquee() {
   return (
     <section
       aria-label="Technology stack"
-      className="overflow-hidden border-y border-border px-5 py-5 md:px-10 lg:px-16"
+      className="overflow-hidden border-y border-border px-5 py-5 md:px-10 lg:px-8"
     >
       <div className="flex w-max animate-marquee gap-10">
         {row.map((item, i) => (
