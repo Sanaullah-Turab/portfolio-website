@@ -165,10 +165,14 @@ export function Projects() {
             {projects.map((project, i) => (
               <Reveal key={project.title} delay={i * 0.05}>
                 <li
-                  className="group border-b border-border"
+                  className="group relative border-b border-border"
                   onMouseEnter={handleEnter(i)}
                   onMouseLeave={() => setActive(null)}
                 >
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-x-0 bottom-0 h-px origin-right scale-x-0 bg-primary transition-transform duration-[400ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:origin-left group-hover:scale-x-100 motion-reduce:transition-none"
+                  />
                   <a
                     href="#"
                     className="grid grid-cols-[auto_1fr] items-baseline gap-x-5 py-8 transition-colors md:grid-cols-[3rem_1fr_auto] md:gap-x-8 md:py-10"

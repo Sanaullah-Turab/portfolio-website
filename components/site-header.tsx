@@ -2,14 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { motion, useScroll, useSpring } from 'framer-motion'
+import { MobileMenu } from '@/components/mobile-menu'
+import { navLinks } from '@/lib/nav-links'
 
-const links = [
-  { href: '#work', label: 'Work' },
-  { href: '#about', label: 'About' },
-  { href: '#experience', label: 'Experience' },
-  { href: '#certifications', label: 'Credentials' },
-  { href: '#contact', label: 'Contact' },
-]
+export const links = navLinks
 
 export function SiteHeader() {
   const [time, setTime] = useState('')
@@ -98,12 +94,7 @@ export function SiteHeader() {
             {time || '00:00:00'}
           </span>
         </div>
-        <a
-          href="#contact"
-          className="font-mono text-xs uppercase tracking-[0.2em] text-foreground transition-colors hover:text-primary md:hidden"
-        >
-          Contact
-        </a>
+        <MobileMenu links={links} />
       </div>
       {/* Scroll progress line */}
       <motion.div
