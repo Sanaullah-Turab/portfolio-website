@@ -11,7 +11,7 @@ const socials = [
 
 export function SiteFooter() {
   return (
-    <footer id="contact" className="border-t border-border px-5 pb-10 pt-24 md:px-10 md:pt-36">
+    <footer id="contact" className="border-t border-border px-6 pb-10 pt-24 md:px-14 md:pt-36 lg:px-20">
       <div className="mx-auto max-w-7xl">
         <div className="mb-6 font-mono text-xs uppercase tracking-[0.25em] text-primary">
           <Reveal y={12}>
