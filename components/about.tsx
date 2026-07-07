@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import Image from 'next/image'
-import { Reveal, RevealText, SectionHeading } from '@/components/reveal'
+import Image from "next/image";
+import { Reveal, RevealText, SectionHeading } from "@/components/reveal";
 
 export function About() {
   return (
@@ -29,8 +29,8 @@ export function About() {
                 <p>
                   That fullstack foundation isn&apos;t baggage — it&apos;s the
                   edge. I don&apos;t just train models; I ship them. Data
-                  pipelines, evaluation harnesses, inference infrastructure,
-                  and the product UI on top. End to end, the way it should be.
+                  pipelines, evaluation harnesses, inference infrastructure, and
+                  the product UI on top. End to end, the way it should be.
                 </p>
                 <p>
                   Today I work on LLM applications, retrieval systems, and
@@ -43,9 +43,9 @@ export function About() {
             <Reveal delay={0.35}>
               <dl className="mt-12 grid grid-cols-3 gap-6 border-t border-border pt-8">
                 {[
-                  ['8+', 'Years engineering'],
-                  ['24', 'Projects shipped'],
-                  ['9', 'Certifications'],
+                  ["8+", "Years engineering"],
+                  ["24", "Projects shipped"],
+                  ["9", "Certifications"],
                 ].map(([value, label]) => (
                   <div key={label}>
                     <dd className="text-4xl font-medium tracking-tight text-primary md:text-5xl">
@@ -78,5 +78,5 @@ export function About() {
         </div>
       </div>
     </section>
-  )
+  );
 }

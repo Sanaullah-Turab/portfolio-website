@@ -1,48 +1,48 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { Menu, X } from "lucide-react";
 
 type NavLink = {
-  href: string
-  label: string
-}
+  href: string;
+  label: string;
+};
 
 type MobileMenuProps = {
-  links: readonly NavLink[]
-}
+  links: readonly NavLink[];
+};
 
 export function MobileMenu({ links }: MobileMenuProps) {
-  const [open, setOpen] = useState(false)
-  const reduced = useReducedMotion()
+  const [open, setOpen] = useState(false);
+  const reduced = useReducedMotion();
 
   useEffect(() => {
-    if (!open) return
+    if (!open) return;
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setOpen(false)
+      if (event.key === "Escape") {
+        setOpen(false);
       }
-    }
+    };
 
-    window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
-  }, [open])
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open]);
 
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
+    document.body.style.overflow = open ? "hidden" : "";
     return () => {
-      document.body.style.overflow = ''
-    }
-  }, [open])
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   return (
     <>
       <button
         type="button"
         className="relative z-[60] inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground transition-colors hover:border-primary hover:text-primary md:hidden"
-        aria-label={open ? 'Close menu' : 'Open menu'}
+        aria-label={open ? "Close menu" : "Open menu"}
         aria-expanded={open}
         aria-controls="mobile-menu"
         onClick={() => setOpen((current) => !current)}
@@ -59,7 +59,11 @@ export function MobileMenu({ links }: MobileMenuProps) {
             initial={reduced ? { opacity: 1 } : { opacity: 0, y: -16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={reduced ? { opacity: 0 } : { opacity: 0, y: -16 }}
-            transition={reduced ? { duration: 0 } : { duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            transition={
+              reduced
+                ? { duration: 0 }
+                : { duration: 0.28, ease: [0.22, 1, 0.36, 1] }
+            }
             className="fixed inset-0 z-50 flex bg-background/95 backdrop-blur-md md:hidden"
           >
             <div className="mx-auto flex w-full max-w-7xl flex-col px-6 pb-10 pt-24">
@@ -100,5 +104,5 @@ export function MobileMenu({ links }: MobileMenuProps) {
         )}
       </AnimatePresence>
     </>
-  )
+  );
 }

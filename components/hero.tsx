@@ -1,18 +1,23 @@
-'use client'
+"use client";
 
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
-import { useRef } from 'react'
-import { RevealText, Reveal } from '@/components/reveal'
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+} from "framer-motion";
+import { useRef } from "react";
+import { RevealText, Reveal } from "@/components/reveal";
 
 export function Hero() {
-  const ref = useRef<HTMLElement>(null)
-  const reduced = useReducedMotion()
+  const ref = useRef<HTMLElement>(null);
+  const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ['start start', 'end start'],
-  })
-  const y = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 120])
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+    offset: ["start start", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 120]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
     <section
@@ -48,9 +53,9 @@ export function Hero() {
           <Reveal delay={0.6} className="md:col-span-5">
             <p className="max-w-md text-pretty leading-relaxed text-muted-foreground">
               Six years building fullstack systems end to end — now designing,
-              training, and deploying machine learning that runs in
-              production. From REST APIs to RAG pipelines, the craft is the
-              same: things that work.
+              training, and deploying machine learning that runs in production.
+              From REST APIs to RAG pipelines, the craft is the same: things
+              that work.
             </p>
           </Reveal>
           <Reveal delay={0.7} className="md:col-span-4">
@@ -81,7 +86,10 @@ export function Hero() {
               </div>
             </dl>
           </Reveal>
-          <Reveal delay={0.8} className="flex items-end md:col-span-3 md:justify-end">
+          <Reveal
+            delay={0.8}
+            className="flex items-end md:col-span-3 md:justify-end"
+          >
             <a
               href="#work"
               className="group inline-flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-foreground transition-colors hover:text-primary"
@@ -98,5 +106,5 @@ export function Hero() {
         </div>
       </motion.div>
     </section>
-  )
+  );
 }
