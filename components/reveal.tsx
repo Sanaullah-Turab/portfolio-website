@@ -87,12 +87,12 @@ export function SectionHeading({
   title: string
 }) {
   return (
-    <div className="mb-2">
+    <div className="mb-10">
       <Reveal>
         <div className="flex items-baseline gap-4 pb-4">
           {/* Glowing index number */}
           <span
-            className="font-mono text-xs text-primary"
+            className="font-mono text-sm text-primary"
             style={{
               textShadow:
                 '0 0 0.6em oklch(0.78 0.155 70 / 0.9), 0 0 1.8em oklch(0.78 0.155 70 / 0.5)',
@@ -102,7 +102,7 @@ export function SectionHeading({
           </span>
           {/* Glowing section title */}
           <h2
-            className="font-mono text-base uppercase tracking-[0.25em] text-foreground"
+            className="font-mono text-lg uppercase tracking-[0.25em] text-foreground"
             style={{
               textShadow:
                 '0 0 0.8em oklch(0.78 0.155 70 / 0.45), 0 0 2.4em oklch(0.78 0.155 70 / 0.2)',

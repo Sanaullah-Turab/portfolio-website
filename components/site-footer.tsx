@@ -1,6 +1,6 @@
 "use client";
 
-import { Reveal, RevealText } from "@/components/reveal";
+import { Reveal, RevealText, SectionHeading } from "@/components/reveal";
 
 const socials = [
   { label: "GitHub", href: "#" },
@@ -13,14 +13,10 @@ export function SiteFooter() {
   return (
     <footer
       id="contact"
-      className="border-t border-border px-5 pb-10 pt-24 md:px-10 md:pt-36 lg:px-8"
+      className="px-5 pb-10 pt-16 md:px-10 md:pt-20 lg:px-8"
     >
       <div className="mx-auto max-w-7xl">
-        <div className="mb-6 font-mono text-xs uppercase tracking-[0.25em] text-primary">
-          <Reveal y={12}>
-            <span>05 — Contact</span>
-          </Reveal>
-        </div>
+        <SectionHeading number="05" title="Contact" />
 
         <h2 className="text-balance text-[12vw] font-medium leading-[0.95] tracking-tight sm:text-[9vw] lg:text-[7.5rem]">
           <RevealText text="Let's build" />
