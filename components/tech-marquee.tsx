@@ -1,26 +1,26 @@
 const stack = [
-  'PyTorch',
-  'TypeScript',
-  'Next.js',
-  'LangChain',
-  'PostgreSQL',
-  'Python',
-  'TensorFlow',
-  'Kubernetes',
-  'Hugging Face',
-  'React',
-  'AWS SageMaker',
-  'Docker',
-  'FastAPI',
-  'Vector DBs',
-]
+  "PyTorch",
+  "TypeScript",
+  "Next.js",
+  "LangChain",
+  "PostgreSQL",
+  "Python",
+  "TensorFlow",
+  "Kubernetes",
+  "Hugging Face",
+  "React",
+  "AWS SageMaker",
+  "Docker",
+  "FastAPI",
+  "Vector DBs",
+];
 
 export function TechMarquee() {
-  const row = [...stack, ...stack]
+  const row = [...stack, ...stack];
   return (
     <section
       aria-label="Technology stack"
-      className="overflow-hidden border-y border-border py-5"
+      className="overflow-hidden border-y border-border px-5 py-5 md:px-10 lg:px-8"
     >
       <div className="flex w-max animate-marquee gap-10">
         {row.map((item, i) => (
@@ -37,5 +37,5 @@ export function TechMarquee() {
         ))}
       </div>
     </section>
-  )
+  );
 }
