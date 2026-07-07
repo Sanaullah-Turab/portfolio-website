@@ -1,7 +1,7 @@
 'use client'
 
-import { motion, useReducedMotion } from 'framer-motion'
-import type { ReactNode } from 'react'
+import { motion, useReducedMotion, useInView } from 'framer-motion'
+import { useRef, type ReactNode } from 'react'
 
 export function Reveal({
   children,
@@ -85,14 +85,52 @@ export function SectionHeading({
   number: string
   title: string
 }) {
+  const lineRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(lineRef, { once: true, margin: '-60px' })
+
   return (
-    <Reveal>
-      <div className="flex items-baseline gap-4 border-b border-border pb-5">
-        <span className="font-mono text-xs text-primary">{number}</span>
-        <h2 className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
-          {title}
-        </h2>
-      </div>
-    </Reveal>
+    <div className="mb-2">
+      <Reveal>
+        <div className="flex items-baseline gap-4 pb-4">
+          {/* Glowing index number */}
+          <span
+            className="font-mono text-xs text-primary"
+            style={{
+              textShadow:
+                '0 0 0.6em oklch(0.78 0.155 70 / 0.9), 0 0 1.8em oklch(0.78 0.155 70 / 0.5)',
+            }}
+          >
+            {number}
+          </span>
+          {/* Glowing section title */}
+          <h2
+            className="font-mono text-base uppercase tracking-[0.25em] text-foreground"
+            style={{
+              textShadow:
+                '0 0 0.8em oklch(0.78 0.155 70 / 0.45), 0 0 2.4em oklch(0.78 0.155 70 / 0.2)',
+            }}
+          >
+            {title}
+          </h2>
+        </div>
+      </Reveal>
+
+      {/* Glowing line — CSS transition driven by useInView */}
+      <div
+        ref={lineRef}
+        style={{
+          height: '1px',
+          width: '100%',
+          background: 'oklch(0.78 0.155 70)',
+          transformOrigin: 'left',
+          transform: isInView ? 'scaleX(1)' : 'scaleX(0)',
+          transition: 'transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s',
+          boxShadow:
+            '0 0 4px 1px oklch(0.78 0.155 70 / 0.7), 0 0 10px 2px oklch(0.78 0.155 70 / 0.35)',
+        }}
+      />
+    </div>
   )
 }
+
+
