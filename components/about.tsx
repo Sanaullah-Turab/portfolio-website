@@ -5,7 +5,7 @@ import { Reveal, RevealText, SectionHeading } from "@/components/reveal";
 
 export function About() {
   return (
-    <section id="about" className="px-6 py-24 md:px-14 md:py-36 lg:px-20">
+    <section id="about" className="px-5 py-24 md:px-10 md:py-36 lg:px-16">
       <div className="mx-auto max-w-7xl">
         <SectionHeading number="02" title="About" />
 
