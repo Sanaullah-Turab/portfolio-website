@@ -68,7 +68,8 @@ export function MobileMenu({ links }: { links: NavLink[] }) {
                 }}
                 className="fixed inset-0 z-50 flex flex-col bg-background/95 backdrop-blur-md"
               >
-                <div className="flex items-center justify-between px-6 py-4">
+                {/* Header Section */}
+                <div className="relative flex items-center justify-between px-6 py-4">
                   <a
                     href="#top"
                     onClick={() => setOpen(false)}
@@ -84,8 +85,24 @@ export function MobileMenu({ links }: { links: NavLink[] }) {
                   >
                     <X className="size-5" aria-hidden="true" />
                   </button>
+
+                  {/* Animated Underline */}
+                  <motion.div
+                    initial={reduced ? { opacity: 1 } : { scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    exit={reduced ? { opacity: 0 } : { scaleX: 0 }}
+                    transition={{
+                      duration: reduced ? 0 : 0.6,
+                      delay: reduced ? 0 : 0.2, // Waits slightly for the menu fade-in to begin
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                    style={{ originX: 0 }} // Ensures the animation starts from the left side
+                    className="absolute bottom-0 left-0 h-[1px] w-full bg-primary"
+                    aria-hidden="true"
+                  />
                 </div>
 
+                {/* Navigation Section */}
                 <nav
                   aria-label="Mobile navigation"
                   className="flex flex-1 items-center px-6"
@@ -100,7 +117,7 @@ export function MobileMenu({ links }: { links: NavLink[] }) {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{
                           duration: reduced ? 0 : 0.5,
-                          delay: reduced ? 0 : i * 0.07,
+                          delay: reduced ? 0 : i * 0.07 + 0.1, // Added a slight offset to sync well with the underline
                           ease: [0.22, 1, 0.36, 1],
                         }}
                       >
@@ -110,7 +127,7 @@ export function MobileMenu({ links }: { links: NavLink[] }) {
                           className="group flex items-baseline gap-4 py-3 text-3xl font-medium tracking-tight text-foreground transition-colors hover:text-primary"
                         >
                           <span
-                            className="font-mono text-xs text-muted-foreground transition-colors group-hover:text-primary"
+                            className="font-mono text-xs text-primary transition-colors"
                             aria-hidden="true"
                           >
                             {String(i + 1).padStart(2, "0")}
@@ -122,6 +139,7 @@ export function MobileMenu({ links }: { links: NavLink[] }) {
                   </ul>
                 </nav>
 
+                {/* Footer Section */}
                 <motion.div
                   initial={reduced ? { opacity: 1 } : { opacity: 0 }}
                   animate={{ opacity: 1 }}
