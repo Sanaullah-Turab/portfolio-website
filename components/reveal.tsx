@@ -1,7 +1,8 @@
 'use client'
 
 import { motion, useReducedMotion } from 'framer-motion'
-import type { ReactNode } from 'react'
+import { type ReactNode } from 'react'
+import { SectionLine } from '@/components/section-line'
 
 export function Reveal({
   children,
@@ -86,13 +87,33 @@ export function SectionHeading({
   title: string
 }) {
   return (
-    <Reveal>
-      <div className="flex items-baseline gap-4 border-b border-border pb-5">
-        <span className="font-mono text-xs text-primary">{number}</span>
-        <h2 className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
-          {title}
-        </h2>
-      </div>
-    </Reveal>
+    <div className="mb-10">
+      <Reveal>
+        <div className="flex items-baseline gap-4 pb-4">
+          {/* Glowing index number */}
+          <span
+            className="font-mono text-sm text-primary"
+            style={{
+              textShadow:
+                '0 0 0.6em oklch(0.78 0.155 70 / 0.9), 0 0 1.8em oklch(0.78 0.155 70 / 0.5)',
+            }}
+          >
+            {number}
+          </span>
+          {/* Glowing section title */}
+          <h2
+            className="font-mono text-lg uppercase tracking-[0.25em] text-foreground"
+            style={{
+              textShadow:
+                '0 0 0.8em oklch(0.78 0.155 70 / 0.45), 0 0 2.4em oklch(0.78 0.155 70 / 0.2)',
+            }}
+          >
+            {title}
+          </h2>
+        </div>
+      </Reveal>
+
+      <SectionLine />
+    </div>
   )
 }
