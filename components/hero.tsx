@@ -8,6 +8,7 @@ import {
 } from "framer-motion";
 import { useRef } from "react";
 import { RevealText, Reveal } from "@/components/reveal";
+import { Dot } from "@/components/dot";
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -44,9 +45,7 @@ export function Hero() {
           <span className="text-muted-foreground">
             <RevealText text="that learn" delay={0.35} />
           </span>
-          <span className="text-primary">
-            <RevealText text="." delay={0.5} />
-          </span>
+          <Dot />
         </h1>
 
         <div className="mt-12 grid gap-8 border-t border-border pt-8 md:grid-cols-12">

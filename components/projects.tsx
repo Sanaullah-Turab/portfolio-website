@@ -183,7 +183,7 @@ export function Projects() {
             {projects.map((project, i) => (
               <Reveal key={project.title} delay={i * 0.05}>
                 <li
-                  className="group relative border-b border-border"
+                  className="group relative border-b border-border lg:border-b-0"
                   onMouseEnter={handleEnter(i)}
                   onMouseLeave={() => setActive(null)}
                 >
