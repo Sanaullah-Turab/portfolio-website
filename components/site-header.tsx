@@ -57,7 +57,7 @@ export function SiteHeader() {
     <motion.header
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.4, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
       className="fixed inset-x-0 top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md"
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:py-5 md:px-10 lg:px-8">
