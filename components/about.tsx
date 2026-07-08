@@ -21,21 +21,24 @@ export function About() {
             <Reveal delay={0.25}>
               <div className="mt-8 max-w-xl space-y-5 leading-relaxed text-muted-foreground">
                 <p>
-                  I spent six years as a fullstack engineer — designing APIs,
-                  scaling databases, and shipping interfaces used by millions.
-                  Then the models got interesting. I retrained, earned the
-                  credentials, and moved into AI/ML engineering full time.
+                  I started fullstack out of necessity, freelance work needed
+                  shipped products, not theory. APIs, databases, interfaces
+                  that actually worked. Then my degree pulled me toward AI/ML,
+                  and something clicked. Since 2023 I have been building
+                  across both, and the AI/ML side is where I want to be.
                 </p>
                 <p>
-                  That fullstack foundation isn&apos;t baggage — it&apos;s the
-                  edge. I don&apos;t just train models; I ship them. Data
-                  pipelines, evaluation harnesses, inference infrastructure, and
-                  the product UI on top. End to end, the way it should be.
+                  The fullstack background did not get left behind, it became
+                  the edge. I do not just want to train a model and hand it
+                  off. I want to build the pipeline that feeds it, the API
+                  that serves it, and the interface someone actually uses.
+                  End to end, because that is the only way I know how to
+                  build.
                 </p>
                 <p>
-                  Today I work on LLM applications, retrieval systems, and
-                  production MLOps — with a bias toward things users actually
-                  touch.
+                  Right now that means deep learning, ML engineering, and
+                  projects that go from raw data to something deployed and
+                  working, not stuck in a notebook.
                 </p>
               </div>
             </Reveal>
@@ -43,8 +46,8 @@ export function About() {
             <Reveal delay={0.35}>
               <dl className="mt-12 grid grid-cols-3 gap-6 border-t border-border pt-8">
                 {[
-                  ["8+", "Years engineering"],
-                  ["24", "Projects shipped"],
+                  ["3+", "Years engineering"],
+                  ["16", "Projects shipped"],
                   ["9", "Certifications"],
                 ].map(([value, label]) => (
                   <div key={label}>
@@ -71,7 +74,7 @@ export function About() {
               />
               <figcaption className="mt-3 flex justify-between font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
                 <span>fig. 01 — the engineer</span>
-                <span className="text-primary">San Francisco</span>
+                <span className="text-primary">Islamabad</span>
               </figcaption>
             </figure>
           </Reveal>
