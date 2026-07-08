@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Space_Grotesk, JetBrains_Mono } from 'next/font/google'
 import { LenisProvider } from '@/components/lenis-provider'
+import { ScrollToTop } from '@/components/scroll-to-top'
 import './globals.css'
 
 const spaceGrotesk = Space_Grotesk({
@@ -15,10 +16,9 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Adrian Vale — Fullstack & AI/ML Engineer',
+  title: 'Sanaullah Turab',
   description:
-    'Portfolio of Adrian Vale, a fullstack engineer turned AI/ML engineer. Building production systems, machine learning pipelines, and intelligent products.',
-  generator: 'v0.app',
+    'Portfolio of Sanaullah Turab, a fullstack engineer turned AI/ML engineer. Building production systems, machine learning pipelines, and intelligent products.',
 }
 
 export const viewport: Viewport = {
@@ -37,7 +37,10 @@ export default function RootLayout({
       className={`bg-background ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
       <body className="antialiased grain">
-        <LenisProvider>{children}</LenisProvider>
+        <LenisProvider>
+            <ScrollToTop />
+            {children}
+          </LenisProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
