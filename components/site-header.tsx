@@ -20,7 +20,7 @@ export function SiteHeader() {
   useEffect(() => {
     const tick = () => {
       setTime(
-        new Date().toLocaleTimeString("en-US", {
+        new Date().toLocaleTimeString("pst", {
           hour: "2-digit",
           minute: "2-digit",
           second: "2-digit",
@@ -65,7 +65,7 @@ export function SiteHeader() {
           href="#top"
           className="font-mono text-sm md:text-base tracking-tight"
         >
-          AV<span className="text-primary">.</span>
+          ST<span className="text-primary">.</span>
         </a>
         <nav aria-label="Main navigation" className="hidden md:block">
           <ul className="flex items-center md:gap-10">
@@ -76,9 +76,8 @@ export function SiteHeader() {
                   <a
                     href={link.href}
                     aria-current={isActive ? "true" : undefined}
-                    className={`link-underline font-mono text-xs md:text-[13px] uppercase tracking-[0.2em] md:tracking-[0.15em] transition-colors hover:text-primary ${
-                      isActive ? "text-primary" : "text-muted-foreground"
-                    }`}
+                    className={`link-underline font-mono text-xs md:text-[13px] uppercase tracking-[0.2em] md:tracking-[0.15em] transition-colors hover:text-primary ${isActive ? "text-primary" : "text-muted-foreground"
+                      }`}
                   >
                     {link.label}
                   </a>
@@ -92,7 +91,7 @@ export function SiteHeader() {
             <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-60 motion-reduce:animate-none" />
             <span className="relative inline-flex size-1.5 rounded-full bg-primary" />
           </span>
-          <span>SF, CA</span>
+          <span>ISB, PK</span>
           <span className="tabular-nums" suppressHydrationWarning>
             {time || "00:00:00"}
           </span>

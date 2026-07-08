@@ -172,9 +172,7 @@ export function Projects() {
                   height={520}
                   className="rounded-md border border-border object-cover shadow-2xl"
                 />
-                <span className="absolute bottom-3 right-3 rounded-full bg-background/85 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-primary backdrop-blur-sm">
-                  View case ↗
-                </span>
+
               </motion.div>
             )}
           </AnimatePresence>
@@ -206,11 +204,10 @@ export function Projects() {
                           {project.title}
                         </h3>
                         <span
-                          className={`font-mono text-[10px] uppercase tracking-[0.2em] ${
-                            project.category === "AI/ML"
+                          className={`font-mono text-[10px] uppercase tracking-[0.2em] ${project.category === "AI/ML"
                               ? "text-primary"
                               : "text-muted-foreground"
-                          }`}
+                            }`}
                         >
                           {project.category}
                         </span>
