@@ -15,10 +15,9 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Adrian Vale — Fullstack & AI/ML Engineer',
+  title: 'Sanaullah Turab',
   description:
-    'Portfolio of Adrian Vale, a fullstack engineer turned AI/ML engineer. Building production systems, machine learning pipelines, and intelligent products.',
-  generator: 'v0.app',
+    'Portfolio of Sanaullah Turab, a fullstack engineer turned AI/ML engineer. Building production systems, machine learning pipelines, and intelligent products.',
 }
 
 export const viewport: Viewport = {
