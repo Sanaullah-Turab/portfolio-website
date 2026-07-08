@@ -29,13 +29,13 @@ export function Hero() {
       <motion.div style={{ y, opacity }} className="mx-auto w-full max-w-7xl">
         <div className="mb-10 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
           <Reveal delay={0.9} y={12}>
-            <span>Adrian Vale</span>
+            <span>Sanaullah Turab</span>
           </Reveal>
           <Reveal delay={1.0} y={12}>
             <span className="text-primary">Fullstack → AI/ML Engineer</span>
           </Reveal>
           <Reveal delay={1.1} y={12}>
-            <span>Est. 2017</span>
+            <span>Est. 2023</span>
           </Reveal>
         </div>
 
@@ -51,10 +51,7 @@ export function Hero() {
         <div className="mt-12 grid gap-8 border-t border-border pt-8 md:grid-cols-12">
           <Reveal delay={0.6} className="md:col-span-5">
             <p className="max-w-md text-pretty leading-relaxed text-muted-foreground">
-              Six years building fullstack systems end to end — now designing,
-              training, and deploying machine learning that runs in production.
-              From REST APIs to RAG pipelines, the craft is the same: things
-              that work.
+              Started with full stack systems, APIs, databases, the stuff that ships. Now I'm deep in machine learning, training models and building pipelines that go from notebook to production. Same instinct either way: build things that actually work.
             </p>
           </Reveal>
           <Reveal delay={0.7} className="md:col-span-4">
@@ -63,7 +60,7 @@ export function Hero() {
                 <dt className="mb-1 uppercase tracking-[0.2em] text-muted-foreground">
                   Currently
                 </dt>
-                <dd>ML Engineer @ Signal Labs</dd>
+                <dd>ML Engineer @ Flyrank AI</dd>
               </div>
               <div>
                 <dt className="mb-1 uppercase tracking-[0.2em] text-muted-foreground">
@@ -75,7 +72,7 @@ export function Hero() {
                 <dt className="mb-1 uppercase tracking-[0.2em] text-muted-foreground">
                   Projects
                 </dt>
-                <dd className="text-primary">24 shipped</dd>
+                <dd className="text-primary">16 shipped</dd>
               </div>
               <div>
                 <dt className="mb-1 uppercase tracking-[0.2em] text-muted-foreground">
@@ -93,7 +90,7 @@ export function Hero() {
               href="#work"
               className="group inline-flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-foreground transition-colors hover:text-primary"
             >
-              Selected work
+              My Projects
               <span
                 aria-hidden="true"
                 className="inline-block transition-transform duration-300 group-hover:translate-y-1"

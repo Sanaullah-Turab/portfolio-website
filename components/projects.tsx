@@ -13,67 +13,74 @@ import { Reveal, SectionHeading } from "@/components/reveal";
 
 type Project = {
   title: string;
-  category: "AI/ML" | "Fullstack";
+  category: "AI/ML" | "Fullstack" | "Data/Analytics";
   description: string;
   tags: string[];
   image: string;
   year: string;
+  href: string;
 };
 
 const projects: Project[] = [
   {
-    title: "Cortex Train",
+    title: "Bijli Bachao AI",
     category: "AI/ML",
     description:
-      "Distributed model training platform with live loss curves, experiment tracking, and one-click deploys to inference endpoints.",
-    tags: ["PyTorch", "Kubernetes", "FastAPI", "Next.js"],
-    image: "/images/project-ai-1.png",
+      "AI powered electricity bill analyzer using Gemini Vision API, built for the Google AISeekho Program and deployed on Cloud Run.",
+    tags: ["Gemini Vision API", "FastAPI", "Next.js"],
+    image: "/images/bijli.png",
     year: "2026",
+    href: "https://bijli-bachao-ai-843802796503.us-west1.run.app",
   },
   {
-    title: "Docwise",
+    title: "RaceBox",
+    category: "Data/Analytics",
+    description:
+      "F1 analytics platform running Monte Carlo simulations to model race outcomes and strategy, with a FastAPI backend serving real-time predictions.",
+    tags: ["FastAPI", "Python", "Monte Carlo Simulation", "React"],
+    image: "/images/racebox.png",
+    year: "2026",
+    href: "https://github.com/Sanaullah-Turab/F1-Simulator",
+  },
+  {
+    title: "Connect-4",
     category: "AI/ML",
     description:
-      "RAG-powered document assistant answering questions over 10k+ enterprise PDFs with cited sources and sub-second retrieval.",
-    tags: ["LangChain", "pgvector", "OpenAI", "React"],
-    image: "/images/project-ai-2.png",
+      "Connect 4 game with an unbeatable AI opponent using Minimax and Alpha-Beta Pruning, built with Python and Pygame.",
+    tags: ["Python", "Pygame", "Minimax", "Alpha-Beta Pruning"],
+    image: "/images/connect.jpeg",
+    year: "2026",
+    href: "https://github.com/Sanaullah-Turab/connect4-ai",
+  },
+  {
+    title: "CodeConvo",
+    category: "Fullstack",
+    description:
+      "Full stack discussion forum platform with user authentication, custom forum creation, threaded replies, and category based filtering and search.",
+    tags: ["MongoDB", "Express", "React", "Node.js"],
+    image: "/images/codeconvo.jpeg",
     year: "2025",
+    href: "https://github.com/Sanaullah-Turab/Web-Based-Discussion-Forum",
   },
   {
-    title: "Ledgerline",
-    category: "Fullstack",
+    title: "AirCor",
+    category: "Data/Analytics",
     description:
-      "Multi-tenant SaaS analytics platform processing 40M events/day, with real-time dashboards and role-based access control.",
-    tags: ["Next.js", "PostgreSQL", "Redis", "tRPC"],
-    image: "/images/project-fs-1.png",
-    year: "2024",
-  },
-  {
-    title: "Atelier Noir",
-    category: "Fullstack",
-    description:
-      "Headless commerce storefront for a design studio — 99 Lighthouse score, edge-rendered, custom checkout flow.",
-    tags: ["Next.js", "Stripe", "Sanity", "Tailwind"],
-    image: "/images/project-fs-2.png",
-    year: "2023",
-  },
-  {
-    title: "Sentinel ML",
-    category: "AI/ML",
-    description:
-      "Real-time fraud detection pipeline — gradient-boosted models scoring transactions in under 20ms at p99.",
-    tags: ["XGBoost", "Kafka", "SageMaker", "Python"],
-    image: "/images/project-ai-3.png",
+      "Data science analysis of 890K+ lung cancer records against global air pollution data across 133 countries, uncovering correlations between PM2.5 exposure and health outcomes.",
+    tags: ["Python", "Pandas", "Scikit-learn", "SciPy"],
+    image: "/images/aircor.png",
     year: "2025",
+    href: "https://github.com/Sanaullah-Turab/global-lung-cancer-analysis",
   },
   {
-    title: "Relay CRM",
+    title: "Zahoor Perfumes",
     category: "Fullstack",
     description:
-      "Open-source CRM with offline-first sync, optimistic UI, and a plugin architecture used by 3k+ teams.",
-    tags: ["React", "Node.js", "SQLite", "WebSockets"],
-    image: "/images/project-fs-3.png",
-    year: "2022",
+      "Shopify storefront for a fragrance retail brand, integrating the Shopify Storefront API with a custom React frontend and GSAP and Framer Motion animations for product browsing and checkout.",
+    tags: ["React", "Shopify Storefront API", "GSAP", "Framer Motion"],
+    image: "/images/zahoor.png",
+    year: "2025",
+    href: "https://zahoorperfumes.netlify.app/",
   },
 ];
 
@@ -145,7 +152,7 @@ export function Projects() {
       className="relative px-5 py-24 md:px-10 md:py-36 lg:px-8"
     >
       <div className="mx-auto max-w-7xl">
-        <SectionHeading number="01" title="Selected Work" />
+        <SectionHeading number="01" title="Projects" />
 
         <div
           className="relative mt-4"
@@ -172,9 +179,7 @@ export function Projects() {
                   height={520}
                   className="rounded-md border border-border object-cover shadow-2xl"
                 />
-                <span className="absolute bottom-3 right-3 rounded-full bg-background/85 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-primary backdrop-blur-sm">
-                  View case ↗
-                </span>
+
               </motion.div>
             )}
           </AnimatePresence>
@@ -193,7 +198,9 @@ export function Projects() {
                     className="absolute bottom-[-1px] left-0 h-px w-full origin-left scale-x-0 bg-primary transition-transform duration-[400ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100 motion-reduce:transition-none"
                   />
                   <a
-                    href="#"
+                    href={project.href ?? "#"}
+                    target={project.href ? "_blank" : undefined}
+                    rel={project.href ? "noopener noreferrer" : undefined}
                     className="grid grid-cols-[auto_1fr] items-baseline gap-x-5 py-8 transition-colors md:grid-cols-[3rem_1fr_auto] md:gap-x-8 md:py-10"
                     aria-label={`${project.title} — ${project.category} project`}
                   >
@@ -206,11 +213,7 @@ export function Projects() {
                           {project.title}
                         </h3>
                         <span
-                          className={`font-mono text-[10px] uppercase tracking-[0.2em] ${
-                            project.category === "AI/ML"
-                              ? "text-primary"
-                              : "text-muted-foreground"
-                          }`}
+                          className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary"
                         >
                           {project.category}
                         </span>
@@ -260,9 +263,11 @@ export function Projects() {
 
         <Reveal delay={0.1}>
           <p className="mt-10 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            + 18 more on{" "}
+            + 10 more on{" "}
             <a
-              href="#"
+              href="https://github.com/sanaullah-turab"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-foreground underline underline-offset-4 transition-colors hover:text-primary"
             >
               GitHub
