@@ -8,6 +8,7 @@ import {
 } from "framer-motion";
 import { useRef } from "react";
 import { RevealText, Reveal } from "@/components/reveal";
+import { SlotWord } from "@/components/slot-word";
 import { Dot } from "@/components/dot";
 
 export function Hero() {
@@ -43,7 +44,12 @@ export function Hero() {
           <RevealText text="I ship products" delay={0.1} />
           <br />
           <span className="text-muted-foreground">
-            <RevealText text="that learn" delay={0.35} />
+            <RevealText text="that " delay={0.35} />
+            <SlotWord
+              words={["learn", "scale", "ship", "think"]}
+              delay={0.35}
+              hold={2600}
+            />
           </span>
           <Dot />
         </h1>
@@ -86,8 +92,8 @@ export function Hero() {
             delay={0.8}
             className="flex items-end md:col-span-3 md:justify-end"
           >
-            <a
-              href="#work"
+
+            <a href="#work"
               className="group inline-flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-foreground transition-colors hover:text-primary"
             >
               My Projects
