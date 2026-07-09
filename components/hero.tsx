@@ -22,21 +22,21 @@ export function Hero() {
   });
   const y = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 120]);
   
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-
-  // Desktop: starts fading immediately, hits 0 opacity at 80% scroll
-  // Mobile: stays fully visible until 70% scroll, then fades out by the end
-  const opacity = useTransform(
-    scrollYProgress,
-    isMobile ? [0, 0.7, 1] : [0, 0, 0.8],
-    [1, 1, 0]
-  );
+  // Dynamically calculate opacity on every scroll frame to avoid stale state
+  const opacity = useTransform(scrollYProgress, (p) => {
+    const mobile = typeof window !== "undefined" && window.innerWidth < 768;
+    if (mobile) {
+      // Mobile: stays solid while in the middle (up to 0.25), then fades out as it hits the top of screen (~0.5)
+      if (p <= 0.30) return 1;
+      if (p >= 0.60) return 0;
+      return 1 - (p - 0.30) / 0.30;
+    } else {
+      // Desktop: starts fading immediately, hits 0 opacity at 80% scroll
+      if (p <= 0) return 1;
+      if (p >= 0.8) return 0;
+      return 1 - p / 0.8;
+    }
+  });
 
   // Animated x-offset for the Dot — tracks actual word pixel width
   const dotX = useMotionValue(0);
