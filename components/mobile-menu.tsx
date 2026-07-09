@@ -75,7 +75,7 @@ export function MobileMenu({ links }: { links: NavLink[] }) {
                     onClick={() => setOpen(false)}
                     className="font-mono text-sm tracking-tight"
                   >
-                    AV<span className="text-primary">.</span>
+                    ST<span className="text-primary">.</span>
                   </a>
                   <button
                     type="button"
@@ -96,7 +96,10 @@ export function MobileMenu({ links }: { links: NavLink[] }) {
                       delay: reduced ? 0 : 0.2, // Waits slightly for the menu fade-in to begin
                       ease: [0.22, 1, 0.36, 1],
                     }}
-                    style={{ originX: 0 }} // Ensures the animation starts from the left side
+                    style={{ 
+                      originX: 0,
+                      boxShadow: '0 0 4px 1px oklch(0.78 0.155 70 / 0.7), 0 0 10px 2px oklch(0.78 0.155 70 / 0.35)',
+                    }}
                     className="absolute bottom-0 left-0 h-px w-full bg-primary"
                     aria-hidden="true"
                   />
@@ -128,11 +131,18 @@ export function MobileMenu({ links }: { links: NavLink[] }) {
                         >
                           <span
                             className="font-mono text-xs text-primary transition-colors"
+                            style={{
+                              textShadow: '0 0 0.6em oklch(0.78 0.155 70 / 0.9), 0 0 1.8em oklch(0.78 0.155 70 / 0.5)',
+                            }}
                             aria-hidden="true"
                           >
                             {String(i + 1).padStart(2, "0")}
                           </span>
-                          {link.label}
+                          <span style={{
+                            textShadow: '0 0 0.8em oklch(0.78 0.155 70 / 0.45), 0 0 2.4em oklch(0.78 0.155 70 / 0.2)',
+                          }}>
+                            {link.label}
+                          </span>
                         </a>
                       </motion.li>
                     ))}
