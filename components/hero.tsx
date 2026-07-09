@@ -46,7 +46,7 @@ export function Hero() {
           <span className="text-muted-foreground">
             <RevealText text="that " delay={0.35} />
             <SlotWord
-              words={["learn", "scale", "ship", "think"]}
+              words={["learn", "scale", "think", "solve"]}
               delay={0.35}
               hold={2600}
             />
