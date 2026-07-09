@@ -58,18 +58,20 @@ export function Hero() {
         <h1 className="text-balance font-sans text-[13.5vw] font-medium leading-[0.95] tracking-tight sm:text-[11vw] lg:text-[8.5rem]">
           <RevealText text="I ship products" delay={0.1} />
           <br />
-          <span className="text-muted-foreground">
-            <RevealText text="that " delay={0.35} />
-            <SlotWord
-              words={["learn", "scale", "think", "solve"]}
-              delay={0.35}
-              hold={2600}
-              onWidthDelta={handleWidthDelta}
-            />
+          <span className="whitespace-nowrap">
+            <span className="text-muted-foreground">
+              <RevealText text="that " delay={0.35} />
+              <SlotWord
+                words={["solve", "think", "scale", "train"]}
+                delay={0.35}
+                hold={2600}
+                onWidthDelta={handleWidthDelta}
+              />
+            </span>
+            <motion.span style={{ display: "inline-block", x: dotX }}>
+              <Dot />
+            </motion.span>
           </span>
-          <motion.span style={{ display: "inline-block", x: dotX }}>
-            <Dot />
-          </motion.span>
         </h1>
 
         <div className="mt-12 grid gap-8 border-t border-border pt-8 md:grid-cols-12">

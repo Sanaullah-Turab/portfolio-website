@@ -3,174 +3,93 @@
 import { animate, motion, useMotionValue, useReducedMotion } from "framer-motion";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
-// ─── constants ────────────────────────────────────────────────────────────────
 const CHARSET = "abcdefghijklmnopqrstuvwxyz";
-const SCRAMBLE_COUNT = 9; // random chars between current and target
+const SCRAMBLE = 9;
+const SPIN_DUR = 1.9;
+const SPIN_EASE = [0.16, 1, 0.3, 1] as const;
 
-function randomChar() {
-    return CHARSET[Math.floor(Math.random() * CHARSET.length)];
-}
+const rChar = () => CHARSET[Math.floor(Math.random() * CHARSET.length)];
+const nbsp = (c: string) => (c === " " ? "\u00A0" : c);
+const buildStrip = (cur: string, tgt: string) =>
+    [cur, ...Array.from({ length: SCRAMBLE }, rChar), tgt];
 
-// Build: [current, rand×SCRAMBLE_COUNT, target]
-// Starting at y=0 shows `current` → no pre-animation flash
-function buildStrip(current: string, target: string): string[] {
-    return [
-        current,
-        ...Array.from({ length: SCRAMBLE_COUNT }, randomChar),
-        target,
-    ];
-}
-
-// ─── ReelChar ─────────────────────────────────────────────────────────────────
 function ReelChar({
-    targetChar,
-    triggerKey,
-    columnDelay,
-    slotH,
-    width,
+    targetChar, triggerKey, columnDelay, slotH, width,
 }: {
-    targetChar: string;
-    triggerKey: number;
-    columnDelay: number;
-    slotH: number;
-    width: number;
+    targetChar: string; triggerKey: number;
+    columnDelay: number; slotH: number; width: number;
 }) {
-    const ch = (c: string) => (c === " " ? "\u00A0" : c);
-
-    // Single-item strip while idle → no ghost chars in DOM
-    const [strip, setStrip] = useState<string[]>([ch(targetChar)]);
+    const char = nbsp(targetChar);
+    const [strip, setStrip] = useState([char]);
     const [boxWidth, setBoxWidth] = useState(width);
-
-    // Imperative y — avoids key-remount flash
     const y = useMotionValue(0);
+    const shown = useRef(char);
+    const wRef = useRef(width);
+    const anim = useRef<ReturnType<typeof animate> | null>(null);
 
-    // Always-fresh refs so async callbacks never capture stale closure values
-    const shownRef = useRef(ch(targetChar)); // what is visible right now
-    const widthRef = useRef(width);          // latest column width
-    const animRef = useRef<ReturnType<typeof animate> | null>(null);
+    wRef.current = width;
 
-    // Keep widthRef up-to-date every render
-    widthRef.current = width;
-
-    // Sync boxWidth before any trigger fires
     useEffect(() => {
         if (triggerKey === 0) setBoxWidth(width);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [width]);
+    }, [width]); // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         if (triggerKey === 0) return;
-
-        const timer = setTimeout(() => {
+        const t = setTimeout(() => {
             const h = Math.round(slotH);
-            const w = widthRef.current; // always the latest width
+            const w = wRef.current;
             if (!h || !w) return;
-
-            const newTarget = ch(targetChar);
-            const newStrip = buildStrip(shownRef.current, newTarget);
-            const finalY = -((newStrip.length - 1) * h);
-
-            // Cancel any in-progress animation
-            animRef.current?.stop();
-
-            // Update strip & width; snap y to 0 → shows shownRef.current
-            setStrip(newStrip);
+            const next = nbsp(targetChar);
+            const s = buildStrip(shown.current, next);
+            anim.current?.stop();
+            setStrip(s);
             setBoxWidth(w);
             y.set(0);
-
-            // Scroll down to the new target
-            animRef.current = animate(y, finalY, {
-                duration: 1.9,
-                ease: [0.16, 1, 0.3, 1],
-                onComplete() {
-                    // Collapse strip back to a single item → zero ghost chars
-                    shownRef.current = newTarget;
-                    setStrip([newTarget]);
-                    y.set(0);
-                },
+            anim.current = animate(y, -((s.length - 1) * h), {
+                duration: SPIN_DUR,
+                ease: SPIN_EASE,
+                onComplete() { shown.current = next; setStrip([next]); y.set(0); },
             });
         }, columnDelay);
-
-        return () => {
-            clearTimeout(timer);
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [triggerKey]);
+        return () => clearTimeout(t);
+    }, [triggerKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const h = Math.round(slotH);
 
-    // Before measurements are ready, render invisible placeholder
-    if (!h || !boxWidth) {
-        return (
-            <span
-                style={{
-                    display: "inline-block",
-                    width: `${boxWidth || 0}px`,
-                    height: `${h || 0}px`,
-                    verticalAlign: "bottom",
-                }}
-            />
-        );
-    }
-
     return (
-        <span
-            style={{
-                display: "inline-block",
-                position: "relative",
-                overflow: "hidden",
-                width: `${boxWidth}px`,
-                height: `${h}px`,
-                verticalAlign: "bottom",
-                flexShrink: 0,
-            }}
-        >
-            <motion.span
-                style={{
-                    y,
-                    display: "block",
-                    position: "absolute",
-                    inset: "0 auto auto 0",
-                    width: "100%",
-                    willChange: "transform",
-                }}
-            >
-                {strip.map((c, i) => (
-                    <span
-                        key={i}
-                        style={{
-                            display: "block",
-                            height: `${h}px`,
-                            lineHeight: `${h}px`,
-                            textAlign: "center",
-                            overflow: "hidden",
-                        }}
-                    >
-                        {c}
-                    </span>
-                ))}
-            </motion.span>
+        <span style={{
+            display: "inline-block", position: "relative", overflow: "hidden",
+            width: `${boxWidth || 0}px`, height: `${h || 0}px`,
+            verticalAlign: "bottom", flexShrink: 0,
+        }}>
+            {h > 0 && boxWidth > 0 && (
+                <motion.span style={{
+                    y, display: "block", position: "absolute",
+                    inset: "0 auto auto 0", width: "100%", willChange: "transform",
+                }}>
+                    {strip.map((c, i) => (
+                        <span key={i} style={{
+                            display: "block", height: `${h}px`,
+                            lineHeight: `${h}px`, textAlign: "center", overflow: "hidden",
+                        }}>{c}</span>
+                    ))}
+                </motion.span>
+            )}
         </span>
     );
 }
 
-// ─── SlotWord ─────────────────────────────────────────────────────────────────
-interface SlotWordProps {
+export interface SlotWordProps {
     words: string[];
     delay?: number;
     hold?: number;
     className?: string;
-    /** Called with (actualWidth - maxWidth) whenever the displayed word changes.
-     *  Negative = current word is narrower than the widest word. */
+    /** delta = actualWordWidth - maxWordWidth; snap = true on first call only */
     onWidthDelta?: (delta: number, snap: boolean) => void;
 }
 
 export function SlotWord({
-    words,
-    delay = 0.35,
-    hold = 3000,
-    className,
-    onWidthDelta,
+    words, delay = 0.35, hold = 3000, className, onWidthDelta,
 }: SlotWordProps) {
     const reduced = useReducedMotion();
     const maxLen = Math.max(...words.map((w) => w.length));
@@ -184,163 +103,117 @@ export function SlotWord({
     const [maxWordWidth, setMaxWordWidth] = useState(0);
     const [actualWordWidths, setActualWordWidths] = useState<number[]>([]);
 
-    const heightRef = useRef<HTMLSpanElement>(null);
-    const measureWrapRef = useRef<HTMLSpanElement>(null);
-    const measureAllRef = useRef<HTMLDivElement>(null);
+    const hRef = useRef<HTMLSpanElement>(null);
+    const wrapRef = useRef<HTMLSpanElement>(null);
+    const allRef = useRef<HTMLDivElement>(null);
     const loopTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const dotInitRef = useRef(false);
+    const dotInit = useRef(false);
 
-    // Measure slot height with line-height:1 so it isn't squashed by the h1's
-    // leading-[0.95] — characters with descenders won't be clipped.
     useLayoutEffect(() => {
-        if (heightRef.current) {
-            setSlotH(heightRef.current.getBoundingClientRect().height);
-        }
+        if (hRef.current) setSlotH(hRef.current.getBoundingClientRect().height);
     }, []);
 
-    // Per-letter widths of the CURRENT word
     useLayoutEffect(() => {
-        if (!measureWrapRef.current) return;
-        const spans = measureWrapRef.current.querySelectorAll("span");
-        setWidths(Array.from(spans).map((s) => s.getBoundingClientRect().width));
+        if (!wrapRef.current) return;
+        setWidths(Array.from(wrapRef.current.querySelectorAll("span"))
+            .map((s) => s.getBoundingClientRect().width));
     }, [wordIdx]);
 
-    // Max total width across all padded words + actual per-word widths
-    useLayoutEffect(() => {
-        if (!measureAllRef.current) return;
-        const rows = Array.from(measureAllRef.current.querySelectorAll("[data-word-row]"));
+    const measureAll = () => {
+        if (!allRef.current) return;
+        const rows = Array.from(allRef.current.querySelectorAll<HTMLElement>("[data-word-row]"));
         let max = 0;
-        const perWordWidths: number[] = [];
-        rows.forEach((row, rowIdx) => {
-            const wordLen = words[rowIdx]?.length ?? 0;
+        const perWidths = rows.map((row, ri) => {
+            const wl = words[ri]?.length ?? 0;
             const spans = Array.from(row.querySelectorAll("span"));
-            let actual = 0;
-            let total = 0;
+            let actual = 0, total = 0;
             spans.forEach((s, i) => {
                 const w = s.getBoundingClientRect().width;
                 total += w;
-                if (i < wordLen) actual += w;
+                if (i < wl) actual += w;
             });
-            perWordWidths.push(actual);
             if (total > max) max = total;
+            return actual;
         });
         setMaxWordWidth(max);
-        setActualWordWidths(perWordWidths);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [words.join("|")]);
+        setActualWordWidths(perWidths);
+    };
 
-    // Report actual width delta to parent whenever word or measurements change
+    useLayoutEffect(measureAll, [words.join("|")]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    // Re-measure on resize so pixel widths stay accurate after orientation changes
     useEffect(() => {
-        if (actualWordWidths.length === 0 || maxWordWidth === 0 || !onWidthDelta) return;
-        const delta = actualWordWidths[wordIdx] - maxWordWidth;
-        const snap = !dotInitRef.current;
-        if (snap) dotInitRef.current = true;
-        onWidthDelta(delta, snap);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [wordIdx, actualWordWidths, maxWordWidth]);
+        if (typeof ResizeObserver === "undefined") return;
+        const ro = new ResizeObserver(() => {
+            if (hRef.current) setSlotH(hRef.current.getBoundingClientRect().height);
+            if (wrapRef.current)
+                setWidths(Array.from(wrapRef.current.querySelectorAll("span"))
+                    .map((s) => s.getBoundingClientRect().width));
+            measureAll();
+        });
+        const el = allRef.current?.parentElement;
+        if (el) ro.observe(el);
+        return () => ro.disconnect();
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    // Start cycling after the page-load reveal animation finishes
+    useEffect(() => {
+        if (!actualWordWidths.length || !maxWordWidth || !onWidthDelta) return;
+        const snap = !dotInit.current;
+        if (snap) dotInit.current = true;
+        onWidthDelta(actualWordWidths[wordIdx] - maxWordWidth, snap);
+    }, [wordIdx, actualWordWidths, maxWordWidth]); // eslint-disable-line react-hooks/exhaustive-deps
+
     useEffect(() => {
         const t = setTimeout(() => setStarted(true), delay * 1000 + 700);
         return () => clearTimeout(t);
     }, [delay]);
 
-    const spinTime = (maxLen - 1) * 140 + 1900;
+    const spinTime = (maxLen - 1) * 140 + SPIN_DUR * 1000;
 
     useEffect(() => {
         if (!started || reduced || words.length < 2 || !slotH) return;
-
-        function triggerSpin() {
+        const spin = () => {
             setWordIdx((i) => (i + 1) % words.length);
             setTriggerKey((k) => k + 1);
-            loopTimer.current = setTimeout(triggerSpin, spinTime + hold);
-        }
-
-        loopTimer.current = setTimeout(triggerSpin, hold);
-        return () => {
-            if (loopTimer.current) clearTimeout(loopTimer.current);
+            loopTimer.current = setTimeout(spin, spinTime + hold);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [started, reduced, words.length, slotH]);
+        loopTimer.current = setTimeout(spin, hold);
+        return () => { if (loopTimer.current) clearTimeout(loopTimer.current); };
+    }, [started, reduced, words.length, slotH]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const target = pad(words[wordIdx]).split("");
+    const hidden = { position: "absolute" as const, visibility: "hidden" as const, pointerEvents: "none" as const };
 
     return (
         <span
             className={`relative inline-flex ${className ?? ""}`}
             style={{
-                // Fixed width — never changes → the Dot never shifts horizontally
                 width: maxWordWidth ? `${Math.ceil(maxWordWidth)}px` : undefined,
-                verticalAlign: "bottom",
-                alignItems: "flex-end",
-                transform: "translateY(0.01em)",
-                // Clip staggered column-width overflows so they never bleed into the Dot
-                overflow: "hidden",
+                verticalAlign: "bottom", alignItems: "flex-end",
+                transform: "translateY(0.01em)", overflow: "hidden",
             }}
             aria-label={words[wordIdx]}
         >
-            {/* ── hidden measurement spans ─────────────────────────────── */}
+            <span ref={hRef} aria-hidden="true"
+                style={{ display: "inline-block", ...hidden }}>Mg</span>
 
-            {/* Slot height: inherit line-height from h1 so slot matches the actual line box */}
-            <span
-                ref={heightRef}
-                aria-hidden="true"
-                style={{
-                    display: "inline-block",
-                    position: "absolute",
-                    visibility: "hidden",
-                    pointerEvents: "none",
-                }}
-            >
-                Mg
-            </span>
-
-            {/* Current word per-letter widths */}
-            <span
-                ref={measureWrapRef}
-                aria-hidden="true"
-                style={{
-                    display: "inline-flex",
-                    position: "absolute",
-                    visibility: "hidden",
-                    pointerEvents: "none",
-                }}
-            >
+            <span ref={wrapRef} aria-hidden="true"
+                style={{ display: "inline-flex", ...hidden }}>
                 {target.map((c, i) => (
-                    <span key={i} style={{ lineHeight: 1 }}>
-                        {c === " " ? "\u00A0" : c}
-                    </span>
+                    <span key={i} style={{ lineHeight: 1 }}>{c === " " ? "\u00A0" : c}</span>
                 ))}
             </span>
 
-            {/* All padded words — find widest total */}
-            <div
-                ref={measureAllRef}
-                aria-hidden="true"
-                style={{
-                    position: "absolute",
-                    visibility: "hidden",
-                    pointerEvents: "none",
-                }}
-            >
+            <div ref={allRef} aria-hidden="true" style={hidden}>
                 {words.map((w) => (
-                    <div
-                        key={w}
-                        data-word-row
-                        style={{ display: "inline-flex", whiteSpace: "nowrap" }}
-                    >
-                        {pad(w)
-                            .split("")
-                            .map((c, i) => (
-                                <span key={i} style={{ lineHeight: 1 }}>
-                                    {c === " " ? "\u00A0" : c}
-                                </span>
-                            ))}
+                    <div key={w} data-word-row style={{ display: "inline-flex", whiteSpace: "nowrap" }}>
+                        {pad(w).split("").map((c, i) => (
+                            <span key={i} style={{ lineHeight: 1 }}>{c === " " ? "\u00A0" : c}</span>
+                        ))}
                     </div>
                 ))}
             </div>
 
-            {/* ── visible reel columns ─────────────────────────────────── */}
             {target.map((c, i) => (
                 <ReelChar
                     key={i}
