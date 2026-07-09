@@ -160,6 +160,9 @@ interface SlotWordProps {
     delay?: number;
     hold?: number;
     className?: string;
+    /** Called with (actualWidth - maxWidth) whenever the displayed word changes.
+     *  Negative = current word is narrower than the widest word. */
+    onWidthDelta?: (delta: number, snap: boolean) => void;
 }
 
 export function SlotWord({
@@ -167,6 +170,7 @@ export function SlotWord({
     delay = 0.35,
     hold = 3000,
     className,
+    onWidthDelta,
 }: SlotWordProps) {
     const reduced = useReducedMotion();
     const maxLen = Math.max(...words.map((w) => w.length));
@@ -178,11 +182,13 @@ export function SlotWord({
     const [slotH, setSlotH] = useState(0);
     const [widths, setWidths] = useState<number[]>([]);
     const [maxWordWidth, setMaxWordWidth] = useState(0);
+    const [actualWordWidths, setActualWordWidths] = useState<number[]>([]);
 
     const heightRef = useRef<HTMLSpanElement>(null);
     const measureWrapRef = useRef<HTMLSpanElement>(null);
     const measureAllRef = useRef<HTMLDivElement>(null);
     const loopTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const dotInitRef = useRef(false);
 
     // Measure slot height with line-height:1 so it isn't squashed by the h1's
     // leading-[0.95] — characters with descenders won't be clipped.
@@ -199,21 +205,39 @@ export function SlotWord({
         setWidths(Array.from(spans).map((s) => s.getBoundingClientRect().width));
     }, [wordIdx]);
 
-    // Max total width across all padded words (fixed outer width → dot never moves)
+    // Max total width across all padded words + actual per-word widths
     useLayoutEffect(() => {
         if (!measureAllRef.current) return;
-        const rows = measureAllRef.current.querySelectorAll("[data-word-row]");
+        const rows = Array.from(measureAllRef.current.querySelectorAll("[data-word-row]"));
         let max = 0;
-        rows.forEach((row) => {
-            let sum = 0;
-            row.querySelectorAll("span").forEach((s) => {
-                sum += s.getBoundingClientRect().width;
+        const perWordWidths: number[] = [];
+        rows.forEach((row, rowIdx) => {
+            const wordLen = words[rowIdx]?.length ?? 0;
+            const spans = Array.from(row.querySelectorAll("span"));
+            let actual = 0;
+            let total = 0;
+            spans.forEach((s, i) => {
+                const w = s.getBoundingClientRect().width;
+                total += w;
+                if (i < wordLen) actual += w;
             });
-            if (sum > max) max = sum;
+            perWordWidths.push(actual);
+            if (total > max) max = total;
         });
         setMaxWordWidth(max);
+        setActualWordWidths(perWordWidths);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [words.join("|")]);
+
+    // Report actual width delta to parent whenever word or measurements change
+    useEffect(() => {
+        if (actualWordWidths.length === 0 || maxWordWidth === 0 || !onWidthDelta) return;
+        const delta = actualWordWidths[wordIdx] - maxWordWidth;
+        const snap = !dotInitRef.current;
+        if (snap) dotInitRef.current = true;
+        onWidthDelta(delta, snap);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [wordIdx, actualWordWidths, maxWordWidth]);
 
     // Start cycling after the page-load reveal animation finishes
     useEffect(() => {
@@ -250,6 +274,8 @@ export function SlotWord({
                 verticalAlign: "bottom",
                 alignItems: "flex-end",
                 transform: "translateY(0.01em)",
+                // Clip staggered column-width overflows so they never bleed into the Dot
+                overflow: "hidden",
             }}
             aria-label={words[wordIdx]}
         >

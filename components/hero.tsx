@@ -5,8 +5,10 @@ import {
   useScroll,
   useTransform,
   useReducedMotion,
+  useMotionValue,
+  animate,
 } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useCallback } from "react";
 import { RevealText, Reveal } from "@/components/reveal";
 import { SlotWord } from "@/components/slot-word";
 import { Dot } from "@/components/dot";
@@ -20,6 +22,19 @@ export function Hero() {
   });
   const y = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 120]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
+  // Animated x-offset for the Dot — tracks actual word pixel width
+  const dotX = useMotionValue(0);
+  const handleWidthDelta = useCallback(
+    (delta: number, snap: boolean) => {
+      if (snap) {
+        dotX.set(delta);
+      } else {
+        animate(dotX, delta, { duration: 0.4, ease: [0.22, 1, 0.36, 1] });
+      }
+    },
+    [dotX]
+  );
 
   return (
     <section
@@ -49,9 +64,12 @@ export function Hero() {
               words={["learn", "scale", "think", "solve"]}
               delay={0.35}
               hold={2600}
+              onWidthDelta={handleWidthDelta}
             />
           </span>
-          <Dot />
+          <motion.span style={{ display: "inline-block", x: dotX }}>
+            <Dot />
+          </motion.span>
         </h1>
 
         <div className="mt-12 grid gap-8 border-t border-border pt-8 md:grid-cols-12">
