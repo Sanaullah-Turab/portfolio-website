@@ -5,9 +5,12 @@ import {
   useScroll,
   useTransform,
   useReducedMotion,
+  useMotionValue,
+  animate,
 } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useCallback, useState, useEffect } from "react";
 import { RevealText, Reveal } from "@/components/reveal";
+import { SlotWord } from "@/components/slot-word";
 import { Dot } from "@/components/dot";
 
 export function Hero() {
@@ -18,7 +21,35 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
   const y = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 120]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  // Desktop: starts fading immediately, hits 0 opacity at 80% scroll
+  // Mobile: stays fully visible until 70% scroll, then fades out by the end
+  const opacity = useTransform(
+    scrollYProgress,
+    isMobile ? [0, 0.7, 1] : [0, 0, 0.8],
+    [1, 1, 0]
+  );
+
+  // Animated x-offset for the Dot — tracks actual word pixel width
+  const dotX = useMotionValue(0);
+  const handleWidthDelta = useCallback(
+    (delta: number, snap: boolean) => {
+      if (snap) {
+        dotX.set(delta);
+      } else {
+        animate(dotX, delta, { duration: 0.4, ease: [0.22, 1, 0.36, 1] });
+      }
+    },
+    [dotX]
+  );
 
   return (
     <section
@@ -43,9 +74,17 @@ export function Hero() {
           <RevealText text="I ship products" delay={0.1} />
           <br />
           <span className="text-muted-foreground">
-            <RevealText text="that learn" delay={0.35} />
+            <RevealText text="that " delay={0.35} />
+            <SlotWord
+              words={["solve", "think", "scale", "train"]}
+              delay={0.35}
+              hold={2600}
+              onWidthDelta={handleWidthDelta}
+            />
           </span>
-          <Dot />
+          <motion.span style={{ display: "inline-block", x: dotX }}>
+            <Dot />
+          </motion.span>
         </h1>
 
         <div className="mt-12 grid gap-8 border-t border-border pt-8 md:grid-cols-12">
@@ -86,8 +125,8 @@ export function Hero() {
             delay={0.8}
             className="flex items-end md:col-span-3 md:justify-end"
           >
-            <a
-              href="#work"
+
+            <a href="#work"
               className="group inline-flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-foreground transition-colors hover:text-primary"
             >
               My Projects
