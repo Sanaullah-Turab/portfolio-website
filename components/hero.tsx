@@ -8,7 +8,7 @@ import {
   useMotionValue,
   animate,
 } from "framer-motion";
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useState, useEffect } from "react";
 import { RevealText, Reveal } from "@/components/reveal";
 import { SlotWord } from "@/components/slot-word";
 import { Dot } from "@/components/dot";
@@ -21,7 +21,22 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
   const y = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 120]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  // Desktop: starts fading immediately, hits 0 opacity at 80% scroll
+  // Mobile: stays fully visible until 70% scroll, then fades out by the end
+  const opacity = useTransform(
+    scrollYProgress,
+    isMobile ? [0, 0.7, 1] : [0, 0, 0.8],
+    [1, 1, 0]
+  );
 
   // Animated x-offset for the Dot — tracks actual word pixel width
   const dotX = useMotionValue(0);
@@ -58,20 +73,18 @@ export function Hero() {
         <h1 className="text-balance font-sans text-[13.5vw] font-medium leading-[0.95] tracking-tight sm:text-[11vw] lg:text-[8.5rem]">
           <RevealText text="I ship products" delay={0.1} />
           <br />
-          <span className="whitespace-nowrap">
-            <span className="text-muted-foreground">
-              <RevealText text="that " delay={0.35} />
-              <SlotWord
-                words={["solve", "think", "scale", "train"]}
-                delay={0.35}
-                hold={2600}
-                onWidthDelta={handleWidthDelta}
-              />
-            </span>
-            <motion.span style={{ display: "inline-block", x: dotX }}>
-              <Dot />
-            </motion.span>
+          <span className="text-muted-foreground">
+            <RevealText text="that " delay={0.35} />
+            <SlotWord
+              words={["solve", "think", "scale", "train"]}
+              delay={0.35}
+              hold={2600}
+              onWidthDelta={handleWidthDelta}
+            />
           </span>
+          <motion.span style={{ display: "inline-block", x: dotX }}>
+            <Dot />
+          </motion.span>
         </h1>
 
         <div className="mt-12 grid gap-8 border-t border-border pt-8 md:grid-cols-12">
