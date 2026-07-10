@@ -114,17 +114,18 @@ export function Projects() {
 
           <ul>
             {projects.map((project, i) => (
-              <Reveal key={project.title} delay={i * 0.05}>
-                <li
-                  className="group relative border-b border-border lg:border-b-0"
-                  onMouseEnter={handleEnter(i)}
-                  onMouseLeave={() => setActive(null)}
-                >
-                  {/* Amber divider that slides in over the static border on hover */}
-                  <span
-                    aria-hidden="true"
-                    className="absolute bottom-[-1px] left-0 h-px w-full origin-left scale-x-0 bg-primary transition-transform duration-[400ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100 motion-reduce:transition-none"
-                  />
+              <li
+                key={project.title}
+                className="group relative border-b border-border lg:border-b-0"
+                onMouseEnter={handleEnter(i)}
+                onMouseLeave={() => setActive(null)}
+              >
+                {/* Amber divider that slides in over the static border on hover */}
+                <span
+                  aria-hidden="true"
+                  className="absolute bottom-[-1px] left-0 h-px w-full origin-left scale-x-0 bg-primary transition-transform duration-[400ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100 motion-reduce:transition-none"
+                />
+                <Reveal delay={i * 0.05}>
                   <a
                     href={project.href ?? "#"}
                     target={project.href ? "_blank" : undefined}
@@ -183,8 +184,8 @@ export function Projects() {
                       </span>
                     </span>
                   </a>
-                </li>
-              </Reveal>
+                </Reveal>
+              </li>
             ))}
           </ul>
         </div>
