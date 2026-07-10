@@ -10,6 +10,7 @@ export function Dot() {
       className="relative inline-block ml-[0.08em] h-[0.18em] w-[0.18em] shrink-0 z-[60]"
     >
       <motion.span
+        suppressHydrationWarning
         className="absolute left-1/2 top-1/2 block h-full w-full rounded-full bg-primary -translate-x-1/2 -translate-y-1/2"
         style={{
           boxShadow:

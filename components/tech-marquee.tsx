@@ -1,19 +1,4 @@
-const stack = [
-  "PyTorch",
-  "TypeScript",
-  "Next.js",
-  "LangChain",
-  "PostgreSQL",
-  "Python",
-  "TensorFlow",
-  "Kubernetes",
-  "Hugging Face",
-  "React",
-  "AWS SageMaker",
-  "Docker",
-  "FastAPI",
-  "Vector DBs",
-];
+import { stack } from "@/lib/data";
 
 export function TechMarquee() {
   const row = [...stack, ...stack];

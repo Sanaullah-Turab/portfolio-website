@@ -1,13 +1,5 @@
-"use client";
-
 import { Reveal, RevealText, SectionHeading } from "@/components/reveal";
-
-
-const socials = [
-  { label: "GitHub", href: "https://github.com/Sanaullah-Turab" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/sanaullah-turab/" },
-  { label: "WhatsApp", href: "https://wa.me/923052871119" },
-];
+import { socials } from "@/lib/data";
 
 export function SiteFooter() {
   return (
@@ -30,6 +22,7 @@ export function SiteFooter() {
             className="relative inline-block ml-[0.08em] h-[0.18em] w-[0.18em] shrink-0"
           >
             <span
+              suppressHydrationWarning
               className="absolute left-1/2 top-1/2 block h-full w-full rounded-full bg-primary -translate-x-1/2 -translate-y-1/2"
               style={{
                 boxShadow:
