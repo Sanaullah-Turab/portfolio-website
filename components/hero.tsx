@@ -24,10 +24,10 @@ function PortraitFrame({ className }: { className?: string }) {
           {/* Tighter core, offset to the upper right to echo the rim light */}
           <div className="absolute right-0 top-0 h-2/3 w-2/3 rounded-full bg-primary/15 blur-2xl" />
         </div>
-        {/* Offset frame behind for depth */}
+        {/* Offset frame behind for depth — softly glowing like a neon edge */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 translate-x-3 translate-y-3 border border-primary/30"
+          className="absolute inset-0 translate-x-3 translate-y-3 border border-primary/40 shadow-[0_0_12px_0] shadow-primary/25"
         />
         {/* Corner ticks */}
         <span
@@ -70,16 +70,19 @@ function PortraitFrame({ className }: { className?: string }) {
             aria-hidden="true"
             className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background/70 to-transparent"
           />
-          {/* Caption bar inside the frame */}
-          <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 px-2.5 py-2 font-mono text-[9px] uppercase tracking-[0.15em] text-muted-foreground">
-            <span className="flex items-center gap-1.5">
-              <span
-                aria-hidden="true"
-                className="inline-block h-1.5 w-1.5 rounded-full bg-primary"
-              />
-              Portrait
+          {/* Caption inside the frame — name as the signature */}
+          <div className="absolute inset-x-0 bottom-0 flex items-center gap-2 px-3 py-2.5">
+            <span
+              aria-hidden="true"
+              className="inline-block h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_8px_0] shadow-primary/70"
+            />
+            <span className="font-mono text-[10px] uppercase tracking-[0.35em] text-foreground/90">
+              sanaullah
             </span>
-            <span>01</span>
+            <span
+              aria-hidden="true"
+              className="h-px flex-1 bg-gradient-to-r from-primary/40 to-transparent"
+            />
           </div>
         </div>
       </div>
@@ -102,16 +105,14 @@ export function Hero() {
   const opacity = useTransform(scrollYProgress, (p) => {
     const mobile = typeof window !== "undefined" && window.innerWidth < 768;
     if (mobile) {
-      // Mobile: stays solid while in the middle (up to 0.25), then fades out as it hits the top of screen (~0.5)
-      if (p <= 0.30) return 1;
-      if (p >= 0.60) return 0;
-      return 1 - (p - 0.30) / 0.30;
-    } else {
-      // Desktop: starts fading immediately, hits 0 opacity at 80% scroll
-      if (p <= 0) return 1;
-      if (p >= 0.8) return 0;
-      return 1 - p / 0.8;
+      // Mobile: hero is taller than the viewport, so a scroll fade can't be
+      // timed cleanly — keep content fully visible and let it scroll away naturally
+      return 1;
     }
+    // Desktop: starts fading immediately, hits 0 opacity at 80% scroll
+    if (p <= 0) return 1;
+    if (p >= 0.8) return 0;
+    return 1 - p / 0.8;
   });
 
   // Animated x-offset for the Dot — tracks actual word pixel width
