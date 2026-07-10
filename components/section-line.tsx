@@ -27,6 +27,7 @@ export function SectionLine() {
   return (
     <div
       ref={ref}
+      suppressHydrationWarning
       style={{
         height: '1px',
         width: '100%',

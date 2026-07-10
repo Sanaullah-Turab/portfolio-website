@@ -3,57 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useSpring, useReducedMotion } from "framer-motion";
 import { Reveal, SectionHeading } from "@/components/reveal";
-
-const roles = [
-  {
-    period: "[Jul 2026 →]",
-    title: "ML Engineering Intern",
-    company: "FlyRank AI",
-    description:
-      "Engineered preprocessing pipelines across multiple internal datasets, cutting model iteration time by 15%. Benchmarked candidate models against production criteria and partnered with a cross functional engineering team to integrate ML components into core systems.",
-    stack: ["Python", "Scikit-learn", "Pandas", "NumPy"],
-  },
-  {
-    period: "[Aug 2025 – Sep 2025]",
-    title: "Machine Learning Engineer",
-    company: "Arch Technologies",
-    description:
-      "Optimized machine learning models across three data challenges, improving prediction accuracy by 8%. Overhauled the data preprocessing and evaluation workflow, cutting experimentation turnaround time by roughly 20%.",
-    stack: ["Python", "Scikit-learn", "Pandas"],
-  },
-  {
-    period: "[May 2025 – Jul 2025]",
-    title: "Frontend Developer Intern",
-    company: "DevelopersHub Corporation & YoungDev",
-    description:
-      "Converted UI/UX designs into production-ready React components across two concurrent internships, integrating third-party APIs and improving page-load performance while ensuring cross-browser compatibility.",
-    stack: ["React.js", "JavaScript", "Tailwind CSS"],
-  },
-  {
-    period: "[Dec 2024 – Mar 2025]",
-    title: "Web Developer Intern",
-    company: "Securely Innovations",
-    description:
-      "Led a three-person team to build CodeConvo, a full stack discussion forum, owning architecture through deployment. Directed JWT-based authentication and persistent storage for users and threaded discussions.",
-    stack: ["React", "Node.js", "SQLite", "JWT"],
-  },
-  {
-    period: "[Feb 2024 – May 2024]",
-    title: "Web Developer Intern",
-    company: "Charisma Software",
-    description:
-      "Built UI components alongside senior developers in a live commercial codebase, applying production-grade code review and performance optimization practices.",
-    stack: ["React", "JavaScript", "CSS"],
-  },
-  {
-    period: "[2020 →]",
-    title: "Full Stack Developer, Freelance",
-    company: "Fiverr",
-    description:
-      "Delivered end-to-end web applications for e-commerce, portfolio, and small business clients, building React frontends paired with Node.js backends and Shopify API storefronts, deployed to production on Vercel.",
-    stack: ["React", "Node.js", "Shopify API", "Vercel"],
-  },
-];
+import { roles } from "@/lib/data";
 
 export function Experience() {
   const timelineRef = useRef<HTMLOListElement>(null);
