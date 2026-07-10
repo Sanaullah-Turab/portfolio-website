@@ -43,11 +43,12 @@ export function RevealText({
   return (
     <motion.span
       className={className}
-      aria-label={text}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '-40px' }}
     >
+      {/* Screen-reader text (aria-label is not valid on a plain span) */}
+      <span className="sr-only">{text}</span>
       {words.map((word, i) => (
         <motion.span
           key={i}
