@@ -6,7 +6,7 @@ import { Reveal, SectionHeading } from "@/components/reveal";
 import { roles } from "@/lib/data";
 
 export function Experience() {
-  const timelineRef = useRef<HTMLOListElement>(null);
+  const timelineRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
 
   // Scroll-driven progress for the vertical timeline line
@@ -25,7 +25,8 @@ export function Experience() {
       <div className="mx-auto max-w-7xl">
         <SectionHeading number="03" title="Experience" />
 
-        <ol ref={timelineRef} className="relative mt-12 md:mt-16">
+        {/* Track lines live on this wrapper — an <ol> may only directly contain <li> */}
+        <div ref={timelineRef} className="relative mt-12 md:mt-16">
           {/* Track line */}
           <div
             aria-hidden="true"
@@ -42,7 +43,8 @@ export function Experience() {
             }}
           />
 
-          {roles.map((role, i) => (
+          <ol>
+            {roles.map((role, i) => (
             <li
               key={role.company}
               className="group relative pb-16 pl-10 last:pb-0 md:pl-16"
@@ -87,8 +89,9 @@ export function Experience() {
                 </div>
               </Reveal>
             </li>
-          ))}
-        </ol>
+            ))}
+          </ol>
+        </div>
       </div>
     </section>
   );

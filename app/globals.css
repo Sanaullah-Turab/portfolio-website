@@ -134,9 +134,9 @@
 }
 
 @utility glow-text {
-  text-shadow: 0 0 0.6em oklch(0.78 0.155 70 / 0.9), 0 0 1.8em oklch(0.78 0.155 70 / 0.5);
+  text-shadow: 0 0 0.35em oklch(0.78 0.155 70 / 0.3);
 }
 @utility glow-underline {
-  box-shadow: 0 0 4px 1px oklch(0.78 0.155 70 / 0.7), 0 0 10px 2px oklch(0.78 0.155 70 / 0.35);
+  box-shadow: 0 0 3px 0.5px oklch(0.78 0.155 70 / 0.45), 0 0 8px 1px oklch(0.78 0.155 70 / 0.2);
 }
 

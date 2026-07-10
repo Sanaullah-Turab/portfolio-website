@@ -192,8 +192,9 @@ export function SlotWord({
                 verticalAlign: "bottom", alignItems: "flex-end",
                 transform: "translateY(0.01em)", overflow: "hidden",
             }}
-            aria-label={words[wordIdx]}
         >
+            {/* Screen-reader text (aria-label is not valid on a plain span) */}
+            <span className="sr-only">{words[wordIdx]}</span>
             <span ref={hRef} aria-hidden="true"
                 style={{ display: "inline-block", ...hidden }}>Mg</span>
 
