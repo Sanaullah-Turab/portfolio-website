@@ -13,6 +13,73 @@ import { RevealText, Reveal } from "@/components/reveal";
 import { SlotWord } from "@/components/slot-word";
 import { Dot } from "@/components/dot";
 
+function PortraitFrame({ className }: { className?: string }) {
+  return (
+    <div className={className}>
+      <div className="group relative">
+        {/* Offset frame behind for depth */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 translate-x-3 translate-y-3 border border-primary/30"
+        />
+        {/* Corner ticks */}
+        <span
+          aria-hidden="true"
+          className="absolute -left-2 -top-2 z-10 font-mono text-xs text-primary"
+        >
+          +
+        </span>
+        <span
+          aria-hidden="true"
+          className="absolute -right-2 -top-2 z-10 font-mono text-xs text-primary"
+        >
+          +
+        </span>
+        <span
+          aria-hidden="true"
+          className="absolute -bottom-2 -left-2 z-10 font-mono text-xs text-primary"
+        >
+          +
+        </span>
+        <span
+          aria-hidden="true"
+          className="absolute -bottom-2 -right-2 z-10 font-mono text-xs text-primary"
+        >
+          +
+        </span>
+
+        <div className="relative aspect-[4/5] overflow-hidden border border-border bg-card">
+          <img
+            src="/images/headshot.png"
+            alt="Portrait of Sanaullah Turab"
+            className="h-full w-full object-cover grayscale contrast-110 transition-all duration-700 ease-out group-hover:grayscale-0"
+          />
+          {/* Warm tint + bottom fade so it sits in the palette */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-primary/10 mix-blend-overlay"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background/70 to-transparent"
+          />
+          {/* Caption bar inside the frame */}
+          <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 px-2.5 py-2 font-mono text-[9px] uppercase tracking-[0.15em] text-muted-foreground">
+            <span className="flex items-center gap-1.5">
+              <span
+                aria-hidden="true"
+                className="inline-block h-1.5 w-1.5 rounded-full bg-primary"
+              />
+              Portrait
+            </span>
+            <span>01</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
@@ -21,6 +88,8 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
   const y = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 120]);
+  // Portrait moves slower than the text for a parallax depth effect
+  const yPortrait = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 50]);
   
   // Dynamically calculate opacity on every scroll frame to avoid stale state
   const opacity = useTransform(scrollYProgress, (p) => {
@@ -57,7 +126,20 @@ export function Hero() {
       id="top"
       className="relative flex min-h-svh flex-col justify-center overflow-hidden px-5 pb-14 pt-20 md:px-10 lg:px-8"
     >
-      <motion.div style={{ y, opacity }} className="mx-auto w-full max-w-7xl">
+      <motion.div
+        style={{ y, opacity }}
+        className="relative mx-auto w-full max-w-7xl"
+      >
+        {/* Desktop portrait — layered behind the headline, top right */}
+        <motion.div
+          style={{ y: yPortrait }}
+          className="absolute right-0 top-40 z-0 hidden w-40 lg:block xl:top-0 xl:w-56 2xl:w-64"
+        >
+          <Reveal delay={1.2} y={20}>
+            <PortraitFrame />
+          </Reveal>
+        </motion.div>
+
         <div className="mb-10 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
           <Reveal delay={0.9} y={12}>
             <span>Sanaullah Turab</span>
@@ -70,7 +152,7 @@ export function Hero() {
           </Reveal>
         </div>
 
-        <h1 className="text-balance font-sans text-[13.5vw] font-medium leading-[0.95] tracking-tight sm:text-[11vw] lg:text-[8.5rem]">
+        <h1 className="relative z-10 text-balance font-sans text-[13.5vw] font-medium leading-[0.95] tracking-tight sm:text-[11vw] lg:text-[8.5rem]">
           <RevealText text="I ship products" delay={0.1} />
           <br />
           <span className="text-muted-foreground">
@@ -86,6 +168,21 @@ export function Hero() {
             <Dot />
           </motion.span>
         </h1>
+
+        {/* Mobile portrait — in-flow, paired with a vertical label */}
+        <div className="mt-10 flex items-end gap-5 lg:hidden">
+          <Reveal delay={1.2} y={16}>
+            <PortraitFrame className="w-36 sm:w-44" />
+          </Reveal>
+          <Reveal delay={1.3} y={16} className="pb-3">
+            <p
+              className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground"
+              style={{ writingMode: "vertical-rl" }}
+            >
+              Sanaullah Turab — Fig. 01
+            </p>
+          </Reveal>
+        </div>
 
         <div className="mt-12 grid gap-8 border-t border-border pt-8 md:grid-cols-12">
           <Reveal delay={0.6} className="md:col-span-5">
