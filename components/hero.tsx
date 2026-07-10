@@ -87,6 +87,18 @@ function PortraitFrame({ className }: { className?: string }) {
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
+
+  // Detect mobile ONCE via matchMedia (not per scroll frame — reading
+  // window.innerWidth every frame forces layout and causes scroll jank)
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    setIsMobile(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
@@ -94,20 +106,9 @@ export function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 120]);
   // Portrait moves slower than the text for a parallax depth effect
   const yPortrait = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 50]);
-  
-  // Dynamically calculate opacity on every scroll frame to avoid stale state
-  const opacity = useTransform(scrollYProgress, (p) => {
-    const mobile = typeof window !== "undefined" && window.innerWidth < 768;
-    if (mobile) {
-      // Mobile: hero is taller than the viewport, so a scroll fade can't be
-      // timed cleanly — keep content fully visible and let it scroll away naturally
-      return 1;
-    }
-    // Desktop: starts fading immediately, hits 0 opacity at 80% scroll
-    if (p <= 0) return 1;
-    if (p >= 0.8) return 0;
-    return 1 - p / 0.8;
-  });
+
+  // Desktop only: starts fading immediately, hits 0 opacity at 80% scroll
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   // Animated x-offset for the Dot — tracks actual word pixel width
   const dotX = useMotionValue(0);
@@ -129,7 +130,9 @@ export function Hero() {
       className="relative flex min-h-svh flex-col justify-center overflow-hidden px-5 pb-14 pt-20 md:px-10 lg:px-8"
     >
       <motion.div
-        style={{ y, opacity }}
+        // Mobile: no scroll-linked styles at all — per-frame transforms over
+        // the blurred glow layers cause repaint jank on mobile GPUs
+        style={isMobile ? undefined : { y, opacity }}
         className="relative mx-auto w-full max-w-7xl"
       >
         {/* Desktop portrait — vertically centered with the text, right side */}
