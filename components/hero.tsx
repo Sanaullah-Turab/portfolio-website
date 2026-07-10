@@ -17,6 +17,13 @@ function PortraitFrame({ className }: { className?: string }) {
   return (
     <div className={className}>
       <div className="group relative">
+        {/* Ambient glow behind the portrait — warm light bleeding from behind */}
+        <div aria-hidden="true" className="absolute -inset-12 -z-10">
+          {/* Broad soft wash */}
+          <div className="absolute inset-0 rounded-full bg-primary/10 blur-3xl" />
+          {/* Tighter core, offset to the upper right to echo the rim light */}
+          <div className="absolute right-0 top-0 h-2/3 w-2/3 rounded-full bg-primary/15 blur-2xl" />
+        </div>
         {/* Offset frame behind for depth */}
         <div
           aria-hidden="true"
@@ -130,15 +137,17 @@ export function Hero() {
         style={{ y, opacity }}
         className="relative mx-auto w-full max-w-7xl"
       >
-        {/* Desktop portrait — layered behind the headline, top right */}
-        <motion.div
-          style={{ y: yPortrait }}
-          className="absolute right-0 top-40 z-0 hidden w-40 lg:block xl:top-0 xl:w-56 2xl:w-64"
-        >
-          <Reveal delay={1.2} y={20}>
-            <PortraitFrame />
-          </Reveal>
-        </motion.div>
+        {/* Desktop portrait — vertically centered with the text, right side */}
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-0 hidden items-center lg:flex">
+          <motion.div
+            style={{ y: yPortrait }}
+            className="pointer-events-auto w-44 xl:w-56 2xl:w-64"
+          >
+            <Reveal delay={1.2} y={20}>
+              <PortraitFrame />
+            </Reveal>
+          </motion.div>
+        </div>
 
         <div className="mb-10 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
           <Reveal delay={0.9} y={12}>
@@ -169,18 +178,10 @@ export function Hero() {
           </motion.span>
         </h1>
 
-        {/* Mobile portrait — in-flow, paired with a vertical label */}
-        <div className="mt-10 flex items-end gap-5 lg:hidden">
+        {/* Mobile portrait — centered figure break between headline and stats */}
+        <div className="mt-12 flex justify-center lg:hidden">
           <Reveal delay={1.2} y={16}>
-            <PortraitFrame className="w-36 sm:w-44" />
-          </Reveal>
-          <Reveal delay={1.3} y={16} className="pb-3">
-            <p
-              className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground"
-              style={{ writingMode: "vertical-rl" }}
-            >
-              Sanaullah Turab — Fig. 01
-            </p>
+            <PortraitFrame className="w-44 sm:w-52" />
           </Reveal>
         </div>
 
