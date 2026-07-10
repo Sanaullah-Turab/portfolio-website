@@ -17,8 +17,12 @@ function PortraitFrame({ className }: { className?: string }) {
   return (
     <div className={className}>
       <div className="group relative">
-        {/* Ambient glow behind the portrait — warm light bleeding from behind */}
-        <div aria-hidden="true" className="absolute -inset-12 -z-10">
+        {/* Ambient glow behind the portrait — warm light bleeding from behind.
+            First sibling with no z-index: paints beneath the positioned siblings
+            that follow, without depending on an ancestor stacking context
+            (a -z-10 here gets hidden behind the page background until a
+            scroll transform creates a stacking context — broken on mobile load) */}
+        <div aria-hidden="true" className="absolute -inset-12">
           {/* Broad soft wash */}
           <div className="absolute inset-0 rounded-full bg-primary/10 blur-3xl" />
           {/* Tighter core, offset to the upper right to echo the rim light */}
@@ -30,35 +34,25 @@ function PortraitFrame({ className }: { className?: string }) {
           className="absolute inset-0 translate-x-3 translate-y-3 border border-primary/40 shadow-[0_0_12px_0] shadow-primary/25"
         />
         {/* Corner ticks */}
-        <span
-          aria-hidden="true"
-          className="absolute -left-2 -top-2 z-10 font-mono text-xs text-primary"
-        >
-          +
-        </span>
-        <span
-          aria-hidden="true"
-          className="absolute -right-2 -top-2 z-10 font-mono text-xs text-primary"
-        >
-          +
-        </span>
-        <span
-          aria-hidden="true"
-          className="absolute -bottom-2 -left-2 z-10 font-mono text-xs text-primary"
-        >
-          +
-        </span>
-        <span
-          aria-hidden="true"
-          className="absolute -bottom-2 -right-2 z-10 font-mono text-xs text-primary"
-        >
-          +
-        </span>
+        {["-left-2 -top-2", "-right-2 -top-2", "-bottom-2 -left-2", "-bottom-2 -right-2"].map(
+          (pos) => (
+            <span
+              key={pos}
+              aria-hidden="true"
+              className={`absolute ${pos} z-10 font-mono text-xs text-primary`}
+            >
+              +
+            </span>
+          )
+        )}
 
         <div className="relative aspect-[4/5] overflow-hidden border border-border bg-card">
           <img
             src="/images/headshot.png"
             alt="Portrait of Sanaullah Turab"
+            width={640}
+            height={800}
+            fetchPriority="high"
             className="h-full w-full object-cover grayscale contrast-110 transition-all duration-700 ease-out group-hover:grayscale-0"
           />
           {/* Warm tint + bottom fade so it sits in the palette */}
