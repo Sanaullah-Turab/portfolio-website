@@ -5,10 +5,13 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import type { NavLink } from "@/lib/nav-links";
+import { Glow } from "./glow";
 
 export function MobileMenu({ links }: { links: NavLink[] }) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [settledLinks, setSettledLinks] = useState<Record<string, boolean>>({});
+  const [underlineSettled, setUnderlineSettled] = useState(false);
   const reduced = useReducedMotion();
 
   useEffect(() => {
@@ -18,9 +21,13 @@ export function MobileMenu({ links }: { links: NavLink[] }) {
   // Lock body scroll while the menu is open
   useEffect(() => {
     if (open) {
-      document.body.style.overflow = "hidden";
+      requestAnimationFrame(() => {
+        document.body.style.overflow = "hidden";
+      });
     } else {
       document.body.style.overflow = "";
+      setSettledLinks({});
+      setUnderlineSettled(false);
     }
     return () => {
       document.body.style.overflow = "";
@@ -66,7 +73,7 @@ export function MobileMenu({ links }: { links: NavLink[] }) {
                   duration: reduced ? 0 : 0.35,
                   ease: [0.22, 1, 0.36, 1],
                 }}
-                className="fixed inset-0 z-50 flex flex-col bg-background/95 backdrop-blur-md"
+                className="fixed inset-0 z-50 flex flex-col bg-background"
               >
                 {/* Header Section */}
                 <div className="relative flex items-center justify-between px-6 py-4">
@@ -87,22 +94,24 @@ export function MobileMenu({ links }: { links: NavLink[] }) {
                   </button>
 
                   {/* Animated Underline */}
-                  <motion.div
-                    initial={reduced ? { opacity: 1 } : { scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    exit={reduced ? { opacity: 0 } : { scaleX: 0 }}
-                    transition={{
-                      duration: reduced ? 0 : 0.6,
-                      delay: reduced ? 0 : 0.2, // Waits slightly for the menu fade-in to begin
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                    style={{ 
-                      originX: 0,
-                      boxShadow: '0 0 4px 1px oklch(0.78 0.155 70 / 0.7), 0 0 10px 2px oklch(0.78 0.155 70 / 0.35)',
-                    }}
-                    className="absolute bottom-0 left-0 h-px w-full bg-primary"
-                    aria-hidden="true"
-                  />
+                  <Glow active={underlineSettled} variant="underline" className="absolute bottom-0 left-0 h-px w-full block">
+                    <motion.div
+                      initial={reduced ? { opacity: 1 } : { scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      exit={reduced ? { opacity: 0 } : { scaleX: 0 }}
+                      transition={{
+                        duration: reduced ? 0 : 0.6,
+                        delay: reduced ? 0 : 0.2, // Waits slightly for the menu fade-in to begin
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                      onAnimationComplete={() => setUnderlineSettled(true)}
+                      style={{
+                        originX: 0,
+                      }}
+                      className="h-full w-full bg-primary"
+                      aria-hidden="true"
+                    />
+                  </Glow>
                 </div>
 
                 {/* Navigation Section */}
@@ -119,30 +128,31 @@ export function MobileMenu({ links }: { links: NavLink[] }) {
                         }
                         animate={{ opacity: 1, y: 0 }}
                         transition={{
-                          duration: reduced ? 0 : 0.5,
-                          delay: reduced ? 0 : i * 0.07 + 0.1, // Added a slight offset to sync well with the underline
+                          duration: reduced ? 0 : 0.3,
+                          delay: reduced ? 0 : i * 0.06 + 0.08,
                           ease: [0.22, 1, 0.36, 1],
                         }}
+                        onAnimationComplete={() => setSettledLinks(prev => ({ ...prev, [link.href]: true }))}
                       >
                         <a
                           href={link.href}
                           onClick={() => setOpen(false)}
                           className="group flex items-baseline gap-4 py-3 text-3xl font-medium tracking-tight text-foreground transition-colors hover:text-primary"
                         >
-                          <span
+                          <Glow
+                            active={!!settledLinks[link.href]}
+                            variant="text"
                             className="font-mono text-xs text-primary transition-colors"
-                            style={{
-                              textShadow: '0 0 0.6em oklch(0.78 0.155 70 / 0.9), 0 0 1.8em oklch(0.78 0.155 70 / 0.5)',
-                            }}
                             aria-hidden="true"
                           >
                             {String(i + 1).padStart(2, "0")}
-                          </span>
-                          <span style={{
-                            textShadow: '0 0 0.8em oklch(0.78 0.155 70 / 0.45), 0 0 2.4em oklch(0.78 0.155 70 / 0.2)',
-                          }}>
+                          </Glow>
+                          <Glow
+                            active={!!settledLinks[link.href]}
+                            variant="text"
+                          >
                             {link.label}
-                          </span>
+                          </Glow>
                         </a>
                       </motion.li>
                     ))}
