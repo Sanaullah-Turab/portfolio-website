@@ -48,7 +48,7 @@ function PortraitFrame({ className }: { className?: string }) {
 
         <div className="relative aspect-[4/5] overflow-hidden border border-border bg-card">
           <img
-            src="/images/headshot.png"
+            src="/images/headshot.jpeg"
             alt="Portrait of Sanaullah Turab"
             width={640}
             height={800}

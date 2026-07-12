@@ -64,7 +64,7 @@ export function About() {
           <Reveal delay={0.2} className="lg:col-span-5">
             <figure className="relative">
               <Image
-                src="/images/portrait.png"
+                src="/images/portrait.jpeg"
                 alt="Portrait of Adrian Vale"
                 width={800}
                 height={800}
