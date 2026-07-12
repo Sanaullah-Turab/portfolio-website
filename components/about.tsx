@@ -65,10 +65,10 @@ export function About() {
             <figure className="relative">
               <Image
                 src="/images/portrait.jpeg"
-                alt="Portrait of Adrian Vale"
+                alt="Portrait of Sanaullah Turab"
                 width={800}
                 height={800}
-                className="w-full rounded-md border border-border object-cover grayscale transition-all duration-700 hover:grayscale-0"
+                className="w-full rounded-md border border-border object-cover"
               />
               <figcaption className="mt-3 flex justify-between font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
                 <span>fig. 01 — the engineer</span>
