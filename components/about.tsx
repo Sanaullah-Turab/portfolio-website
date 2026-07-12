@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { Reveal, RevealText, SectionHeading } from "@/components/reveal";
+import { ParallaxImage } from "@/components/parallax-image";
 
 export function About() {
   return (
@@ -63,12 +63,12 @@ export function About() {
 
           <Reveal delay={0.2} className="lg:col-span-5">
             <figure className="relative">
-              <Image
+              <ParallaxImage
                 src="/images/portrait.jpeg"
                 alt="Portrait of Sanaullah Turab"
                 width={800}
                 height={800}
-                className="w-full rounded-md border border-border object-cover"
+                range={["-10%", "10%"]}
               />
               <figcaption className="mt-3 flex justify-between font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
                 <span>fig. 01 — the engineer</span>
