@@ -19,6 +19,7 @@ export const metadata: Metadata = {
   title: 'Sanaullah Turab',
   description:
     'Portfolio of Sanaullah Turab, a fullstack engineer turned AI/ML engineer. Building production systems, machine learning pipelines, and intelligent products.',
+  manifest: '/site.webmanifest',
 }
 
 export const viewport: Viewport = {
