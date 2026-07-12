@@ -91,7 +91,7 @@ export const projects: Project[] = [
     description:
       "Shopify storefront for a fragrance retail brand, integrating the Shopify Storefront API with a custom React frontend and GSAP and Framer Motion animations for product browsing and checkout.",
     tags: ["React", "Shopify Storefront API", "GSAP", "Framer Motion"],
-    image: "/images/zahoor.png",
+    image: "/images/zahoor.jpeg",
     year: "2025",
     href: "https://zahoorperfumes.netlify.app/",
   },

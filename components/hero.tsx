@@ -48,12 +48,12 @@ function PortraitFrame({ className }: { className?: string }) {
 
         <div className="relative aspect-[4/5] overflow-hidden border border-border bg-card">
           <img
-            src="/images/headshot.png"
+            src="/images/headshot.jpeg"
             alt="Portrait of Sanaullah Turab"
             width={640}
             height={800}
             fetchPriority="high"
-            className="h-full w-full object-cover grayscale contrast-110 transition-all duration-700 ease-out group-hover:grayscale-0"
+            className="h-full w-full object-cover"
           />
           {/* Warm tint + bottom fade so it sits in the palette */}
           <div
